@@ -7,7 +7,8 @@ const myDataSource = new DataSource({
     username: "postgres",
     password: "open",
     database: "db_dtmoney",
-    entities: ["src/entity/*.ts"],
+    migrations: ["./src/database/migrations/*.ts"],
+    entities: ["./src/modules/**/entities/*.ts"],
     logging: true,
     synchronize: true,
 })
