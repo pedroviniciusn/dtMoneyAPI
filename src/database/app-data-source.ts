@@ -11,6 +11,7 @@ const myDataSource = new DataSource({
     entities: ["./src/modules/**/entities/*.ts"],
     logging: true,
     synchronize: true,
+    migrationsRun: false,
 })
 
 export { myDataSource };

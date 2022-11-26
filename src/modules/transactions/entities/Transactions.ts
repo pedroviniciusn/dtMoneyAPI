@@ -1,12 +1,12 @@
-import { Entity, PrimaryColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { User } from '../../accounts/entities/User';
 
-@Entity()
+@Entity('transactions')
 export class Transactions {
   @PrimaryColumn()
   id: string;
 
-  @ManyToOne(() => User, (user) => user.transactions)
+  @ManyToOne(() => User, (user) => user.id)
   user: User;
 
   @Column()
@@ -20,4 +20,10 @@ export class Transactions {
 
   @Column()
   type: string;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }

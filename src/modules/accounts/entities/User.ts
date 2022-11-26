@@ -1,20 +1,33 @@
-import { Entity, PrimaryColumn, Column, OneToMany, JoinTable } from 'typeorm';
+import { Entity, PrimaryColumn, Column, OneToMany, JoinTable, CreateDateColumn, UpdateDateColumn, ManyToMany } from 'typeorm';
 import { Transactions } from '../../transactions/entities/Transactions';
 
-@Entity()
+@Entity('users')
 export class User {
   @PrimaryColumn()
   id: string;
 
-  @Column()
+  @Column({
+    length: 30
+  })
   name: string;
 
-  @Column()
+  @Column({
+    length: 30
+  })
   email: string;
 
-  @Column()
+  @Column({
+    length: 16
+  })
   password: string;
 
-  @OneToMany(() => Transactions, (transactions) => transactions.user)
+  @ManyToMany(() => Transactions)
+  @JoinTable()
   transactions: Transactions[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }
