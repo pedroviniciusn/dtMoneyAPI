@@ -5,6 +5,7 @@ import { myDataSource } from './database/app-data-source';
 import { Transactions } from './modules/transactions/entities/Transactions';
 import { User } from './modules/accounts/entities/User';
 import { clientErrorHandler } from './middlewares/clientErrorHandler';
+import { router } from './routes';
 
 myDataSource
     .initialize()
@@ -18,6 +19,8 @@ myDataSource
 const app = express();
 
 app.use(express.json());
+
+app.use(router);
 
 app.get('/user', async (req, res) => {
   const userRepository = myDataSource.getRepository(User)
