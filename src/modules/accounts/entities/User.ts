@@ -1,4 +1,14 @@
-import { Entity, PrimaryColumn, Column, OneToMany, JoinTable, CreateDateColumn, UpdateDateColumn, ManyToMany } from 'typeorm';
+import { 
+  Entity, 
+  PrimaryColumn,
+  Column, 
+  OneToMany, 
+  CreateDateColumn, 
+  UpdateDateColumn,
+} from 'typeorm';
+
+import { v4 as uuidV4 } from 'uuid';
+
 import { Transactions } from '../../transactions/entities/Transactions';
 
 @Entity('users')
@@ -21,8 +31,7 @@ export class User {
   })
   password: string;
 
-  @ManyToMany(() => Transactions)
-  @JoinTable()
+  @OneToMany(() => Transactions, (transactions) => transactions.user)
   transactions: Transactions[];
 
   @CreateDateColumn()
@@ -30,4 +39,10 @@ export class User {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuidV4();
+    }
+  }
 }
