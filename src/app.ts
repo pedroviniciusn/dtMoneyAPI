@@ -1,8 +1,10 @@
 import 'reflect-metadata';
+import 'express-async-errors'
 import * as express from 'express';
 import { myDataSource } from './database/app-data-source';
 import { Transactions } from './modules/transactions/entities/Transactions';
 import { User } from './modules/accounts/entities/User';
+import { clientErrorHandler } from './middlewares/clientErrorHandler';
 
 myDataSource
     .initialize()
@@ -53,8 +55,8 @@ app.post('/transactions', async (req, res) => {
   user.transactions = [transactions]
 
   await myDataSource.manager.save(user)
-
-  
 })
+
+app.use(clientErrorHandler);
 
 app.listen(8080, () => console.log('Server is runing'));
