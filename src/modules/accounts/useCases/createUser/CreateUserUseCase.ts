@@ -22,7 +22,7 @@ export class CreateUserUseCase {
       throw new AppError('User already exists');
     }
 
-    const passwordHash = await hash(password, 1);
+    const passwordHash = await hash(password, 8);
 
     await this.userRepository.create({
       name,

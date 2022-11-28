@@ -1,6 +1,8 @@
+import { hash } from 'bcryptjs';
 import { Repository } from 'typeorm';
 import { myDataSource } from '../../../../database/app-data-source';
 import { ICreateUserDTO } from '../../dtos/ICreateUserDTO';
+import { IUpdateUserDTO } from '../../dtos/IUpdateUserDTO';
 import { User } from '../../entities/User';
 import { IUserRepository } from '../IUserRepository';
 
@@ -24,10 +26,27 @@ class UserRepository implements IUserRepository {
 
     await this.repository.save(user)
   }
+
+  async update({
+    id,
+    name,
+    email,
+    password,
+  }: IUpdateUserDTO): Promise<void> {
+    const user = await this.repository.findOneBy({
+      id: id,
+    })
+    
+    await this.repository.update(id, {
+      name: name ? name : user.name,
+      email: email ? email : user.email,
+      password: password ? password : user.password,
+    })
+  }
   
   async findByEmail(email: string): Promise<User> {
     const user = await this.repository.findOneBy({ 
-      email: email
+      email: email,
      });
 
     return user;
@@ -35,7 +54,7 @@ class UserRepository implements IUserRepository {
 
   async findById(id: string): Promise<User> {
     const user = await this.repository.findOneBy({
-      id: id
+      id: id,
     })
 
     return user;
