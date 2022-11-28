@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import './shared/container';
 import 'express-async-errors'
 import * as express from 'express';
 import { myDataSource } from './database/app-data-source';
@@ -21,17 +22,6 @@ const app = express();
 app.use(express.json());
 
 app.use(router);
-
-app.get('/user', async (req, res) => {
-  const userRepository = myDataSource.getRepository(User)
-  const user = await userRepository.find({
-    relations: {
-        transactions: true,
-    },
-  })
-
-  return res.json({ user });
-})
 
 app.post('/transactions', async (req, res) => {
   const {

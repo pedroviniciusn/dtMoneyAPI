@@ -5,10 +5,10 @@ import {
 } from '../../modules/accounts/repositories/IUserRepository';
 
 import { 
-  userRepository
+  UserRepository
 } from '../../modules/accounts/repositories/implementations/UserRepository';
 
 container.registerSingleton<IUserRepository>(
   'UserRepository',
-  userRepository
+  UserRepository
 );

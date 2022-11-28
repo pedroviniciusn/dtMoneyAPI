@@ -26,9 +26,7 @@ export class User {
   })
   email: string;
 
-  @Column({
-    length: 16
-  })
+  @Column()
   password: string;
 
   @OneToMany(() => Transactions, (transactions) => transactions.user)
