@@ -23,14 +23,17 @@ export class UpdatedUserUseCase {
       throw new AppError('User not found')
     }
     
-    const passwordHash = await hash(password, 8)
+    if (password) {
+      const passwordHash = await hash(password, 8)
+      password = passwordHash;
+    }
     
 
     await this.userRepository.update({
       id,
       name,
       email,
-      password: passwordHash,
+      password: password,
     })
   }
 }
