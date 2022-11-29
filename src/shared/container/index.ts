@@ -8,7 +8,20 @@ import {
   UserRepository
 } from '../../modules/accounts/repositories/implementations/UserRepository';
 
+import { 
+  ITransactionsRepository
+} from '../../modules/transactions/repositories/ITransactionRepository';
+
+import { 
+  TransactionsRepository 
+} from '../../modules/transactions/repositories/implementations/TransactionRepository';
+
 container.registerSingleton<IUserRepository>(
   'UserRepository',
-  UserRepository
+  UserRepository,
 );
+
+container.registerSingleton<ITransactionsRepository>(
+  'TransactionRepository',
+  TransactionsRepository,
+)
