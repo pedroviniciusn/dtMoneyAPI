@@ -28,16 +28,16 @@ class UserRepository implements IUserRepository {
   }
 
   async update({
-    id,
+    userId,
     name,
     email,
     password,
   }: IUpdateUserDTO): Promise<void> {
     const user = await this.repository.findOneBy({
-      id: id,
+      id: userId,
     })
     
-    await this.repository.update(id, {
+    await this.repository.update(userId, {
       name: name ? name : user.name,
       email: email ? email : user.email,
       password: password ? password : user.password,
@@ -45,14 +45,16 @@ class UserRepository implements IUserRepository {
   }
   
   async findByEmail(email: string): Promise<User> {
-    const user = await this.repository.findOneBy({ 
-      email: email,
+    const user = await this.repository.findOne({ 
+      where: {
+        email: email,
+      },
      });
 
     return user;
   }
 
-  async findById(id: string): Promise<User> {
+  async findById(userId: string): Promise<User> {
     const user = await this.repository.findOne({
       select: {
         id: true,
@@ -65,8 +67,9 @@ class UserRepository implements IUserRepository {
       },
 
       where: {
-        id: id,
+        id: userId,
       },
+      
       relations: {
         transactions: true,
       }

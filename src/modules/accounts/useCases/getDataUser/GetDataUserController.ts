@@ -5,11 +5,11 @@ import { GetDataUserUseCase } from './GetDataUserUseCase';
 
 export class GetDataUserController {
   async handle(req: Request, res: Response): Promise<Response> {
-    const { id } = req.params;
-
+    const { id: userId } = req.user
+    
     const getDataUserUseCase = container.resolve(GetDataUserUseCase);
 
-    const user = await getDataUserUseCase.execute(id);
+    const user = await getDataUserUseCase.execute(userId);
 
     return res.json(user);
   }

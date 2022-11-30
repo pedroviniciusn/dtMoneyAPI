@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { ensureAuthenticated } from '../middlewares/ensureAuthenticated';
 
 import { 
   CreateUserController 
@@ -15,7 +16,7 @@ const updatedUserController = new UpdatedUserController();
 const getDataUserController = new GetDataUserController();
 
 userRoutes.post('/', createUserController.handle);
-userRoutes.put('/:id', updatedUserController.handle);
-userRoutes.get('/:id', getDataUserController.handle);
+userRoutes.put('/', ensureAuthenticated, updatedUserController.handle);
+userRoutes.get('/', ensureAuthenticated, getDataUserController.handle);
 
 export { userRoutes };

@@ -4,7 +4,7 @@ import { CreateTransactionUseCase } from './CreateTransactionUseCase';
 
 export class CreateTransactionController {
   async handle(req: Request, res: Response): Promise<Response> {
-    const { id } = req.params;
+    const { id: userId } = req.user
 
     const {
       title,
@@ -16,7 +16,7 @@ export class CreateTransactionController {
     const createTransactionUseCase = container.resolve(CreateTransactionUseCase);
 
     await createTransactionUseCase.execute({
-      id,
+      userId,
       title,
       amount,
       category,

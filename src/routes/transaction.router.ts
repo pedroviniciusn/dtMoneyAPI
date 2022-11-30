@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { ensureAuthenticated } from '../middlewares/ensureAuthenticated';
 
 import { 
   CreateTransactionController 
@@ -9,6 +10,6 @@ const transactionRoutes = Router();
 
 const createTransactionController = new CreateTransactionController();
 
-transactionRoutes.post('/:id', createTransactionController.handle);
+transactionRoutes.post('/', ensureAuthenticated, createTransactionController.handle);
 
 export { transactionRoutes };

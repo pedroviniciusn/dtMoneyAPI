@@ -6,7 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/app.ts",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli",
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli -d ./src/database/app-data-source",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

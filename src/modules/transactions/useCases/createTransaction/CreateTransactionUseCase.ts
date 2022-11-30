@@ -15,20 +15,20 @@ export class CreateTransactionUseCase {
   ) {}
 
   async execute({
-    id,
+    userId,
     title,
     amount,
     category,
     type,
   }: ICreateTransactionsDTO): Promise<void> {
-    const user = this.userRepository.findById(id);
+    const user = await this.userRepository.findById(userId);
 
     if(!user) {
       throw new AppError('User not found');
     }
 
     await this.transactionRepository.create({
-      id,
+      userId,
       title,
       amount,
       category,

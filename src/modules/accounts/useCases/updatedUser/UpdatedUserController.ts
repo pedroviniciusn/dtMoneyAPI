@@ -5,7 +5,8 @@ import { UpdatedUserUseCase } from './UpdatedUserUseCase';
 
 export class UpdatedUserController {
   async handle(req: Request, res: Response): Promise<Response> {
-    const { id } = req.params;
+    const { id: userId } = req.user
+
     const {
       name,
       email,
@@ -15,7 +16,7 @@ export class UpdatedUserController {
     const updatedUserUseCase = container.resolve(UpdatedUserUseCase);
 
     await updatedUserUseCase.execute({
-      id,
+      userId,
       name,
       email,
       password,

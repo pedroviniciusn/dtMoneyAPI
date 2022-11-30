@@ -11,8 +11,8 @@ export class GetDataUserUseCase {
     private userRepository: IUserRepository,
   ) {}
 
-  async execute(id: string): Promise<User> {
-    const user = await this.userRepository.findById(id);
+  async execute(userId: string): Promise<User> {
+    const user = await this.userRepository.findById(userId);
 
     if (!user) {
       throw new AppError('User not found')
