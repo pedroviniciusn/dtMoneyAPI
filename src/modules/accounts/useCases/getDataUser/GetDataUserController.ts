@@ -5,7 +5,7 @@ import { GetDataUserUseCase } from './GetDataUserUseCase';
 
 export class GetDataUserController {
   async handle(req: Request, res: Response): Promise<Response> {
-    const { id: userId } = req.user
+    const { id: userId } = req.user;
     
     const getDataUserUseCase = container.resolve(GetDataUserUseCase);
 

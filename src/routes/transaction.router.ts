@@ -10,6 +10,10 @@ const transactionRoutes = Router();
 
 const createTransactionController = new CreateTransactionController();
 
-transactionRoutes.post('/', ensureAuthenticated, createTransactionController.handle);
+transactionRoutes.post(
+  '/create_transactions', 
+  ensureAuthenticated, 
+  createTransactionController.handle
+);
 
 export { transactionRoutes };
