@@ -4,6 +4,7 @@ import { myDataSource } from '../../../../database/app-data-source';
 import { Transactions } from '../../../transactions/entities/Transactions';
 import { ICreateUserDTO } from '../../dtos/ICreateUserDTO';
 import { IUpdateUserDTO } from '../../dtos/IUpdateUserDTO';
+import { IUpdateUserPasswordDTO } from '../../dtos/IUpdateUserPasswordDTO';
 import { User } from '../../entities/User';
 import { IUserRepository } from '../IUserRepository';
 
@@ -14,6 +15,16 @@ class UserRepository implements IUserRepository {
   constructor() {
     this.repository = myDataSource.getRepository(User);
     this.transactionsRepository = myDataSource.getRepository(Transactions);
+  }
+
+  async updatePassword({
+    userId,
+    password,
+    newPassword,
+  }: IUpdateUserPasswordDTO): Promise<void> {
+    await this.repository.update(userId, {
+      password: newPassword,
+    })
   }
 
   async create({
@@ -34,7 +45,6 @@ class UserRepository implements IUserRepository {
     userId,
     name,
     email,
-    password,
   }: IUpdateUserDTO): Promise<void> {
     const user = await this.repository.findOneBy({
       id: userId,
@@ -43,7 +53,6 @@ class UserRepository implements IUserRepository {
     await this.repository.update(userId, {
       name: name ? name : user.name,
       email: email ? email : user.email,
-      password: password ? password : user.password,
     })
   }
 
@@ -86,7 +95,7 @@ class UserRepository implements IUserRepository {
         id: true,
         name: true,
         email: true,
-        password: false,
+        password: true,
         created_at: false,
         updated_at: false,
         transactions: true,

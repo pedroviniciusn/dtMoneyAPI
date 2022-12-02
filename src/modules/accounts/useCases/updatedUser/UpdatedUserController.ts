@@ -10,7 +10,6 @@ export class UpdatedUserController {
     const {
       name,
       email,
-      password,
     } = req.body;
 
     const updatedUserUseCase = container.resolve(UpdatedUserUseCase);
@@ -19,7 +18,6 @@ export class UpdatedUserController {
       userId,
       name,
       email,
-      password,
     })
 
     return res.status(200).send();

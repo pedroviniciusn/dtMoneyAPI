@@ -15,25 +15,17 @@ export class UpdatedUserUseCase {
     userId,
     name,
     email,
-    password,
   }: IUpdateUserDTO): Promise<void> {
     const user = this.userRepository.findById(userId)
 
     if (!user) {
       throw new AppError('User not found')
-    }
-    
-    if (password) {
-      const passwordHash = await hash(password, 8)
-      password = passwordHash;
-    }
-    
+    } 
 
     await this.userRepository.update({
       userId,
       name,
       email,
-      password: password,
     })
   }
 }

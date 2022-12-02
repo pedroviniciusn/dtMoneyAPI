@@ -50,8 +50,6 @@ export class AuthenticateUserUseCase {
       },
     };
 
-    console.log(tokenReturn);
-
     return tokenReturn;
   }
 }

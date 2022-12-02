@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { CreateUserUseCase } from './CreateUserUseCase';
+import { CreateUserUseCase } from './CreateUserAccountUseCase';
 
 export class CreateUserController {
   async handle(req: Request, res: Response): Promise<Response> {
