@@ -13,6 +13,6 @@ export class DeleteUserAccountController {
 
     return res.status(200).json({
       message: 'Account deleted!'
-    })
+    });
   }
 }

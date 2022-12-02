@@ -3,8 +3,8 @@ import { Transactions } from '../entities/Transactions';
 
 interface ITransactionsRepository {
   create(data: ICreateTransactionsDTO): Promise<void>;
-  delete(id: string): Promise<void>;
-  findById(id: string): Promise<Transactions>;
+  delete(transactionId: string): Promise<void>;
+  findById(transactionId: string): Promise<Transactions>;
 }
 
 export { ITransactionsRepository };

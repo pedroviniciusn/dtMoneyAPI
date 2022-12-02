@@ -49,11 +49,19 @@ export class TransactionsRepository implements ITransactionsRepository {
 
     await this.userRepository.save(user);
   }
-  delete(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async delete(transactionId: string): Promise<void> {
+    await this.repository.delete(transactionId);
   }
-  findById(id: string): Promise<Transactions> {
-    throw new Error('Method not implemented.');
+  
+  async findById(transactionId: string): Promise<Transactions> {
+    const transaction = await this.repository.findOne({
+      where: {
+        id: transactionId,
+      }
+    })
+
+    return transaction;
   }
 }
   
