@@ -50,7 +50,7 @@ class UserRepository implements IUserRepository {
       id: userId,
     })
     
-    await this.repository.update(userId, {
+    await this.repository.update(user.id, {
       name: name ? name : user.name,
       email: email ? email : user.email,
     })

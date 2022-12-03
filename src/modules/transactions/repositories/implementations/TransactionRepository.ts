@@ -2,6 +2,7 @@ import { Repository } from 'typeorm';
 import { myDataSource } from '../../../../database/app-data-source';
 import { User } from '../../../accounts/entities/User';
 import { ICreateTransactionsDTO } from '../../dtos/ICreateTransactionsDTO';
+import { IUpdateTransactionDTO } from '../../dtos/IUpdateTransactionDTO';
 import { Transactions } from '../../entities/Transactions';
 import { ITransactionsRepository } from '../ITransactionRepository';
 
@@ -48,6 +49,27 @@ export class TransactionsRepository implements ITransactionsRepository {
     user.transactions = [...user.transactions, transaction]
 
     await this.userRepository.save(user);
+  }
+
+  async update({
+    transactionId,
+    title,
+    amount,
+    category,
+    type,
+  }: IUpdateTransactionDTO): Promise<void> {
+    const transaction = await this.repository.findOne({
+      where: {
+        id: transactionId,
+      }
+    });
+
+    await this.repository.update(transaction.id, {
+      title: title ? title : transaction.title,
+      amount: amount ? amount : transaction.amount,
+      category: category ? category : transaction.category,
+      type: type ? type : transaction.type,
+    })
   }
 
   async delete(transactionId: string): Promise<void> {
