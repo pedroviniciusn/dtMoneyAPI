@@ -5,8 +5,8 @@ import { userRoutes } from './user.router';
 
 const router = Router();
 
-router.use('/users', userRoutes);
-router.use('/transactions', transactionRoutes);
+router.use('/api', userRoutes);
+router.use('/api', transactionRoutes);
 router.use(authenticateRoutes);
 
 export { router }; 

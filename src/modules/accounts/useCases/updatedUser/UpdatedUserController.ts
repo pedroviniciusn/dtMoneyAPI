@@ -19,6 +19,8 @@ export class UpdatedUserController {
       email,
     })
 
-    return res.status(200).send();
+    return res.status(200).json({
+      message: 'Data updated successful.'
+    });
   }
 }

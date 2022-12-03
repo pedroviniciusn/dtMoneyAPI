@@ -25,6 +25,8 @@ export class UpdatedTransactionController {
       type,
     });
 
-    return res.status(200).send();
+    return res.status(200).json({
+      message: 'Transaction updated successful.'
+    });
   }
 }

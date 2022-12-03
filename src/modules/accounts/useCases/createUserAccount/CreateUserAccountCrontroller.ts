@@ -18,6 +18,8 @@ export class CreateUserController {
       password,
     });
 
-    return res.status(201).send();
+    return res.status(201).json({
+      message: 'Created account successful.'
+    });
   }
 }

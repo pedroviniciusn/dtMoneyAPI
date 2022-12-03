@@ -1,0 +1,98 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "dtmoney Rest API",
+    "description": "Income and expense control, add your earnings and expenses",
+    "version": "1.0.0",
+    "contact": {
+      "email": "pedrovinicius.dev@gmail.com"
+    }
+  },
+  "paths": {
+    "/api/create_user": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create account",
+        "description": "Create a new account",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "example example",
+                  "email": "example@example.com",
+                  "password": "example123"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "Created account successful."
+        },
+        "400": {
+          "description": "User already exists."
+        }
+      }
+    },
+    "/api/session": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Login",
+        "description": "Login using your e-mail and password, previously registered",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email": "example@example.com",
+                  "password": "example123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -11,6 +11,6 @@ export class AuthenticateUserController {
 
     const token = await authenticateUserUseCase.execute({ email, password });
 
-    return res.json(token);
+    return res.status(200).json(token);
   }
 }
