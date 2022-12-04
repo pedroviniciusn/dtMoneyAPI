@@ -38,20 +38,44 @@
               }
             }
           }
-        }
-      },
-      "responses": {
-        "201": {
-          "description": "Created account successful."
         },
-        "400": {
-          "description": "User already exists."
+        "responses": {
+          "201": {
+            "description": "Created account successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User already exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
-    "/api/session": {
+    "/sessions": {
       "post": {
-        "tags": ["User"],
+        "tags": ["Login"],
         "summary": "Login",
         "description": "Login using your e-mail and password, previously registered",
         "requestBody": {
@@ -80,16 +104,159 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type":"string"
+                        }, 
+                        "email": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
               }
             }
+          },
+          "400": {
+            "description": "Email or password incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me": {
+      "get": {
+        "tags": ["User"],
+        "summary": "User logged",
+        "description": "Logged-in user, with access to all application functionalities.",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "transactions": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "amount": {
+                          "type": "number"
+                        },
+                        "category": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#components/schemas/tokenMissing"
+                    },
+                    {
+                      "$ref": "#components/schemas/userDoesNotExists"
+                    }, 
+                    {
+                      "$ref":"#components/schemas/invalidToken"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components":{
+    "securitySchemes": {
+      "bearerAuth": {
+        "In": "headers.authorization",
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "tokenMissing": {
+        "description": "Token missing",
+        "type":"object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          }
+      },
+      "userDoesNotExists": {
+        "description": "User does not exists",
+        "type":"object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "invalidToken": {
+        "description": "Invalid token",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "number"
           }
         }
       }
