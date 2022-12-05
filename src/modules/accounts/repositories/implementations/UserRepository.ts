@@ -17,16 +17,6 @@ class UserRepository implements IUserRepository {
     this.transactionsRepository = myDataSource.getRepository(Transactions);
   }
 
-  async updatePassword({
-    userId,
-    password,
-    newPassword,
-  }: IUpdateUserPasswordDTO): Promise<void> {
-    await this.repository.update(userId, {
-      password: newPassword,
-    })
-  }
-
   async create({
     name,
     email,
@@ -53,6 +43,16 @@ class UserRepository implements IUserRepository {
     await this.repository.update(user.id, {
       name: name ? name : user.name,
       email: email ? email : user.email,
+    })
+  }
+
+  async updatePassword({
+    userId,
+    password,
+    newPassword,
+  }: IUpdateUserPasswordDTO): Promise<void> {
+    await this.repository.update(userId, {
+      password: newPassword,
     })
   }
 
@@ -95,7 +95,7 @@ class UserRepository implements IUserRepository {
         id: true,
         name: true,
         email: true,
-        password: true,
+        password: false,
         created_at: false,
         updated_at: false,
         transactions: true,
@@ -111,6 +111,25 @@ class UserRepository implements IUserRepository {
     })
 
     return user;
+  }
+
+  async findByIdAndGetPassword(userId: string): Promise<User> {
+    const userPassword = await this.repository.findOne({
+      select: {
+        name: false,
+        email: false,
+        password: true,
+        created_at: false,
+        updated_at: false,
+        transactions: false,
+      },
+
+      where: {
+        id: userId
+      }
+    });
+
+    return userPassword;
   }
 }
 

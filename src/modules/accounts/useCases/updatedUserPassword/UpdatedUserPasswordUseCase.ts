@@ -17,7 +17,7 @@ export class UpdatedUserPasswordUseCase {
     newPassword,
   }: IUpdateUserPasswordDTO): Promise<void> {
 
-    const user = await this.userRepository.findById(userId);
+    const user = await this.userRepository.findByIdAndGetPassword(userId);
 
     const passwordMatch = await compare(password, user.password);
 
@@ -36,6 +36,6 @@ export class UpdatedUserPasswordUseCase {
     await this.userRepository.updatePassword({
       userId,
       newPassword: passwordHash,
-    })
+    });
   }
 }
