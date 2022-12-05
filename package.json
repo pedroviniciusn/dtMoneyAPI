@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/app.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli -d ./src/database/app-data-source",
+    "build": "tsc --build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -24,6 +25,7 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",

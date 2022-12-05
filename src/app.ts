@@ -4,6 +4,8 @@ import 'express-async-errors'
 
 import express from 'express';
 
+import dotenv from 'dotenv';
+
 import { router } from './routes';
 
 import swaggerUi from "swagger-ui-express";
@@ -12,6 +14,8 @@ import swaggerFile from './swagger.json';
 import { myDataSource } from './database/app-data-source';
 
 import { clientErrorHandler } from './middlewares/clientErrorHandler';
+
+dotenv.config();
 
 myDataSource
     .initialize()
@@ -34,4 +38,4 @@ app.use(clientErrorHandler);
 
 const port = 8080;
 
-app.listen(port, () => console.log(`Server is runing in port ${port}`));
+app.listen(port, () => console.log(`Server is runing in port ${port} ${process.env.DB_NAME}`));
