@@ -148,6 +148,89 @@
         ]
       }
     },
+    "/api/me/transactions": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get all user transactions",
+        "description": "Get all your account transactions",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "amount": {
+                      "type": "number"
+                    },
+                    "category": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Could be 2 types of error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#components/schemas/userNotFound"
+                    },
+                    {
+                      "$ref": "#components/schemas/transactionsNotFound"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Could be 3 types of error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#components/schemas/tokenMissing"
+                    },
+                    {
+                      "$ref": "#components/schemas/userNotFound"
+                    }, 
+                    {
+                      "$ref":"#components/schemas/invalidToken"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/api/me/update_user": {
       "put": {
         "tags": ["User"],
@@ -411,6 +494,217 @@
           }
         }
       }
+    },
+    "/api/create_transaction": {
+      "post": {
+        "tags": ["Transactions"],
+        "summary": "Create transactions",
+        "description": "Create deposit or withdrawal type transactions",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "number"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }, 
+        "responses": {
+          "201": {
+            "description": "Created transaction successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/messageSucess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description":"User not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/userNotFound"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Could be 3 types of error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#components/schemas/tokenMissing"
+                    },
+                    {
+                      "$ref": "#components/schemas/userNotFound"
+                    }, 
+                    {
+                      "$ref":"#components/schemas/invalidToken"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/update_transaction/{transaction_id}": {
+      "put": {
+        "tags": ["Transactions"],
+        "summary": "Update transaction details",
+        "description": "Update your transaction details.",
+        "parameters": [{
+          "In": "path",
+          "name": "transaction_id",
+          "description": "Transaction id.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "number"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transaction updated successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/messageSucess"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "description": "Transactions not found",
+              "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/transactionsNotFound"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Could be 3 types of error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#components/schemas/tokenMissing"
+                    },
+                    {
+                      "$ref": "#components/schemas/userNotFound"
+                    }, 
+                    {
+                      "$ref":"#components/schemas/invalidToken"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/delete_transaction/{transaction_id}": {
+      "delete": {
+        "tags": ["Transactions"],
+        "summary": "Delete transaction",
+        "description": "Detele your transaction.",
+        "parameters": [{
+          "In": "path",
+          "name": "transaction_id",
+          "description": "Transaction id.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "Transaction deleted!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/messageSucess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Transactions not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/transactionsNotFound"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Could be 3 types of error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#components/schemas/tokenMissing"
+                    },
+                    {
+                      "$ref": "#components/schemas/userNotFound"
+                    }, 
+                    {
+                      "$ref":"#components/schemas/invalidToken"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components":{
@@ -461,6 +755,15 @@
       },
       "userNotFound": {
         "description": "User not found.",
+        "type":"object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "transactionsNotFound": {
+        "description": "Transactions not found",
         "type":"object",
         "properties": {
           "message": {
