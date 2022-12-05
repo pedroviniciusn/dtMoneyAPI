@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "dtmoney Rest API",
-    "description": "Income and expense control, add your earnings and expenses",
+    "description": "Income and expense control, add your earnings and expenses.",
     "version": "1.0.0",
     "contact": {
       "email": "pedrovinicius.dev@gmail.com"
@@ -13,7 +13,7 @@
       "post": {
         "tags": ["User"],
         "summary": "Create account",
-        "description": "Create a new account",
+        "description": "Create a new account.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -45,12 +45,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#components/schemas/messageSucess"
                 }
               }
             }
@@ -61,76 +56,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/sessions": {
-      "post": {
-        "tags": ["Login"],
-        "summary": "Login",
-        "description": "Login using your e-mail and password, previously registered",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  }
-                },
-                "example": {
-                  "email": "example@example.com",
-                  "password": "example123"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "token": {
-                      "type": "string"
-                    },
-                    "user": {
-                      "type": "object",
-                      "properties": {
-                        "name": {
-                          "type":"string"
-                        }, 
-                        "email": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Email or password incorrect",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type":"object",
                   "properties": {
                     "message": {
                       "type": "string"
@@ -196,6 +121,7 @@
             }
           },
           "401": {
+            "description": "Could be 3 types of error",
             "content": {
               "application/json": {
                 "schema": {
@@ -204,7 +130,7 @@
                       "$ref": "#components/schemas/tokenMissing"
                     },
                     {
-                      "$ref": "#components/schemas/userDoesNotExists"
+                      "$ref": "#components/schemas/userNotFound"
                     }, 
                     {
                       "$ref":"#components/schemas/invalidToken"
@@ -221,6 +147,270 @@
           }
         ]
       }
+    },
+    "/api/me/update_user": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Update account data",
+        "description": "Update name and e-mail your account.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "example example",
+                  "email": "example@example.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Data updated successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/messageSucess"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Could be 3 types of error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#components/schemas/tokenMissing"
+                    },
+                    {
+                      "$ref": "#components/schemas/userNotFound"
+                    }, 
+                    {
+                      "$ref":"#components/schemas/invalidToken"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/me/update_password": {
+      "patch": {
+        "tags": ["User"],
+        "summay": "Update account password",
+        "description": "Update account password.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password updated successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/messageSucess"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#components/schemas/passwordIncorrect"
+                    },
+                    {
+                      "$ref": "#components/schemas/passwordCannotSame"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Could be 3 types of error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#components/schemas/tokenMissing"
+                    },
+                    {
+                      "$ref": "#components/schemas/userNotFound"
+                    }, 
+                    {
+                      "$ref":"#components/schemas/invalidToken"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/me/delete_account": {
+      "delete": {
+        "tags": ["User"],
+        "summary": "Delete account",
+        "description": "Delete your account.",
+        "responses": {
+          "200": {
+            "description": "Account deleted!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/messageSucess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/userNotFound"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Could be 3 types of error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#components/schemas/tokenMissing"
+                    },
+                    {
+                      "$ref": "#components/schemas/userNotFound"
+                    }, 
+                    {
+                      "$ref":"#components/schemas/invalidToken"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+
+    },
+    "/sessions": {
+      "post": {
+        "tags": ["Login"],
+        "summary": "Login",
+        "description": "Login using your e-mail and password, previously registered.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email": "example@example.com",
+                  "password": "example123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type":"string"
+                        }, 
+                        "email": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email or password incorrect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components":{
@@ -233,8 +423,35 @@
       }
     },
     "schemas": {
+      "messageSucess": {
+        "description": "Requisition successful",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "passwordIncorrect": {
+        "description": "Password incorrect.",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "passwordCannotSame": {
+        "description": "Passwords cannot be the same",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
       "tokenMissing": {
-        "description": "Token missing",
+        "description": "Token missing.",
         "type":"object",
           "properties": {
             "message": {
@@ -242,8 +459,8 @@
             }
           }
       },
-      "userDoesNotExists": {
-        "description": "User does not exists",
+      "userNotFound": {
+        "description": "User not found.",
         "type":"object",
         "properties": {
           "message": {
@@ -252,7 +469,7 @@
         }
       },
       "invalidToken": {
-        "description": "Invalid token",
+        "description": "Invalid token.",
         "type": "object",
         "properties": {
           "message": {

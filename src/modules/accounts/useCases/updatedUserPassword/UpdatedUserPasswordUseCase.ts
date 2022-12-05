@@ -22,13 +22,13 @@ export class UpdatedUserPasswordUseCase {
     const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new AppError('Password incorrect')
+      throw new AppError('Password incorrect.')
     }
 
     const newPasswordMacth = await compare(newPassword, user.password);
 
     if (newPasswordMacth) {
-      throw new AppError('Passwords cannot be the same')
+      throw new AppError('Passwords cannot be the same.')
     }
 
     const passwordHash = await hash(newPassword, 8);
