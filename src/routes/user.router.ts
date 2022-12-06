@@ -35,18 +35,18 @@ const getUserTransactionsController = new GetUserTransactionsController();
 const deleteUserAccountController = new DeleteUserAccountController();
 
 userRoutes.post(
-  '/create_user', 
+  '/account', 
   createUserController.handle
 );
 
 userRoutes.put(
-  '/me/update_user', 
+  '/me/account_data', 
   ensureAuthenticated, 
   updatedUserController.handle
 );
 
 userRoutes.patch(
-  '/me/update_password', 
+  '/me/account_password', 
   ensureAuthenticated, 
   updatedUserPasswordController.handle
 );
@@ -58,13 +58,13 @@ userRoutes.get(
 );
 
 userRoutes.get(
-  '/me/transactions', 
+  '/me/account_transactions', 
   ensureAuthenticated, 
   getUserTransactionsController.handle
 );
 
 userRoutes.delete(
-  '/me/delete_accocunt', 
+  '/me/account', 
   ensureAuthenticated, 
   deleteUserAccountController.handle
 );

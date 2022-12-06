@@ -22,19 +22,19 @@ const updatedTransactionController =  new UpdatedTransactionController();
 const deleteTransactionController = new DeleteTransactionController();
 
 transactionRoutes.post(
-  '/create_transaction', 
+  'me/transactions', 
   ensureAuthenticated, 
   createTransactionController.handle
 );
 
 transactionRoutes.put(
-  '/update_transaction/:transaction_id',
+  'me/transactions_data/:transaction_id',
   ensureAuthenticated,
   updatedTransactionController.handle,
 );
 
 transactionRoutes.delete(
-  '/delete_transaction/:transaction_id', 
+  'me/transactions/:transaction_id', 
   ensureAuthenticated, 
   deleteTransactionController.handle,
 );

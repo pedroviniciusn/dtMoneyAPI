@@ -9,7 +9,7 @@
     }
   },
   "paths": {
-    "/api/create_user": {
+    "/api/account": {
       "post": {
         "tags": ["User"],
         "summary": "Create account",
@@ -148,7 +148,7 @@
         ]
       }
     },
-    "/api/me/transactions": {
+    "/api/me/account_transactions": {
       "get": {
         "tags": ["User"],
         "summary": "Get all user transactions",
@@ -231,7 +231,7 @@
         ]
       }
     },
-    "/api/me/update_user": {
+    "/api/me/account_data": {
       "put": {
         "tags": ["User"],
         "summary": "Update account data",
@@ -296,7 +296,7 @@
         ]
       }
     },
-    "/api/me/update_password": {
+    "/api/me/account_password": {
       "patch": {
         "tags": ["User"],
         "summay": "Update account password",
@@ -370,7 +370,7 @@
         ]
       }
     },
-    "/api/me/delete_account": {
+    "/api/me/account": {
       "delete": {
         "tags": ["User"],
         "summary": "Delete account",
@@ -495,7 +495,7 @@
         }
       }
     },
-    "/api/create_transaction": {
+    "/api/me/Transactions": {
       "post": {
         "tags": ["Transactions"],
         "summary": "Create transactions",
@@ -564,10 +564,15 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
-    "/api/update_transaction/{transaction_id}": {
+    "/api/me/transactions_data/{transaction_id}": {
       "put": {
         "tags": ["Transactions"],
         "summary": "Update transaction details",
@@ -616,14 +621,14 @@
             }
           },
           "400": {
+            "description": "Transactions not found",
             "content": {
-              "description": "Transactions not found",
               "application/json": {
                 "schema": {
                   "$ref": "#components/schemas/transactionsNotFound"
                 }
               }
-            }
+            } 
           },
           "401": {
             "description": "Could be 3 types of error",
@@ -645,10 +650,15 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
-    "/api/delete_transaction/{transaction_id}": {
+    "/api/me/transactions/{transaction_id}": {
       "delete": {
         "tags": ["Transactions"],
         "summary": "Delete transaction",
@@ -703,7 +713,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     }
   },
