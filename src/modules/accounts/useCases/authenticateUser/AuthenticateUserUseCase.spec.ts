@@ -37,14 +37,14 @@ describe('Authenticate User', () => {
       password: user.password,
     });
 
-    const restult = await authenticateUserUseCase.execute({
+    const result = await authenticateUserUseCase.execute({
       email: user.email,
       password: user.password,
     });
 
-    expect(restult).toHaveProperty('token');
+    expect(result).toHaveProperty('token');
 
-    expect(restult).toHaveProperty('user');
+    expect(result).toHaveProperty('user');
   });
 
   it('Should not be able to authenticate an nonexistent user', async () => {
