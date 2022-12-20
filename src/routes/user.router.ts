@@ -1,29 +1,32 @@
 import { Router } from 'express';
-import { ensureAuthenticated } from '../middlewares/ensureAuthenticated';
 
-import { 
-  CreateUserController 
-} from '../modules/accounts/useCases/createUserAccount/CreateUserAccountCrontroller';
+import {
+  ensureAuthenticated,
+} from '@middlewares/ensureAuthenticated';
 
-import { 
-  DeleteUserAccountController 
-} from '../modules/accounts/useCases/deleteUserAccount/DeleteUserAccountController';
+import {
+  CreateUserController,
+} from '@modules/accounts/useCases/createUserAccount/CreateUserAccountCrontroller';
 
-import { 
-  GetDataUserController 
-} from '../modules/accounts/useCases/getDataUser/GetDataUserController';
+import {
+  DeleteUserAccountController,
+} from '@modules/accounts/useCases/deleteUserAccount/DeleteUserAccountController';
 
-import { 
-  GetUserTransactionsController 
-} from '../modules/accounts/useCases/getUserTransactions/GetUserTransactionsController';
+import {
+  GetDataUserController,
+} from '@modules/accounts/useCases/getDataUser/GetDataUserController';
 
-import { 
-  UpdatedUserController 
-} from '../modules/accounts/useCases/updatedUser/UpdatedUserController';
+import {
+  GetUserTransactionsController,
+} from '@modules/accounts/useCases/getUserTransactions/GetUserTransactionsController';
 
-import { 
-  UpdatedUserPasswordController 
-} from '../modules/accounts/useCases/updatedUserPassword/UpdatedUserPasswordController';
+import {
+  UpdatedUserController,
+} from '@modules/accounts/useCases/updatedUser/UpdatedUserController';
+
+import {
+  UpdatedUserPasswordController,
+} from '@modules/accounts/useCases/updatedUserPassword/UpdatedUserPasswordController';
 
 const userRoutes = Router();
 

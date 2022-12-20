@@ -1,7 +1,18 @@
-import { ICreateUserDTO } from '../dtos/ICreateUserDTO';
-import { IUpdateUserDTO } from '../dtos/IUpdateUserDTO';
-import { IUpdateUserPasswordDTO } from '../dtos/IUpdateUserPasswordDTO';
-import { User } from '../entities/User';
+import {
+  ICreateUserDTO,
+} from '../dtos/ICreateUserDTO';
+
+import {
+  IUpdateUserDTO,
+} from '../dtos/IUpdateUserDTO';
+
+import {
+  IUpdateUserPasswordDTO,
+} from '../dtos/IUpdateUserPasswordDTO';
+
+import {
+  User,
+} from '../entities/User';
 
 interface IUserRepository {
   create(data: ICreateUserDTO): Promise<void>;

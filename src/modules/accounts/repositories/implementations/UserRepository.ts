@@ -1,12 +1,35 @@
-import { hash } from 'bcryptjs';
-import { Repository } from 'typeorm';
-import { myDataSource } from '../../../../database/app-data-source';
-import { Transactions } from '../../../transactions/entities/Transactions';
-import { ICreateUserDTO } from '../../dtos/ICreateUserDTO';
-import { IUpdateUserDTO } from '../../dtos/IUpdateUserDTO';
-import { IUpdateUserPasswordDTO } from '../../dtos/IUpdateUserPasswordDTO';
-import { User } from '../../entities/User';
-import { IUserRepository } from '../IUserRepository';
+import {
+  myDataSource,
+} from '@database/app-data-source';
+
+import {
+  ICreateUserDTO,
+} from '@modules/accounts/dtos/ICreateUserDTO';
+
+import {
+  IUpdateUserDTO,
+} from '@modules/accounts/dtos/IUpdateUserDTO';
+
+import {
+  IUpdateUserPasswordDTO,
+} from '@modules/accounts/dtos/IUpdateUserPasswordDTO';
+
+import {
+  User,
+} from '@modules/accounts/entities/User';
+
+import {
+  Transactions,
+} from '@modules/transactions/entities/Transactions';
+
+import {
+  Repository,
+} from 'typeorm';
+
+import {
+  IUserRepository,
+} from '../IUserRepository';
+
 
 class UserRepository implements IUserRepository {
   private repository: Repository<User>;

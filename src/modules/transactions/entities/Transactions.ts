@@ -9,7 +9,7 @@ import {
 
 import { v4 as uuidV4 } from 'uuid';
 
-import { User } from '../../accounts/entities/User';
+import { User } from '@modules/accounts/entities/User';
 
 @Entity('transactions')
 export class Transactions {

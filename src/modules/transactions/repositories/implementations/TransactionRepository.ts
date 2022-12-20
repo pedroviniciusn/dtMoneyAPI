@@ -1,11 +1,28 @@
 import { Repository } from 'typeorm';
-import { myDataSource } from '../../../../database/app-data-source';
-import { User } from '../../../accounts/entities/User';
-import { ICreateTransactionsDTO } from '../../dtos/ICreateTransactionsDTO';
-import { IUpdateTransactionDTO } from '../../dtos/IUpdateTransactionDTO';
-import { Transactions } from '../../entities/Transactions';
-import { ITransactionsRepository } from '../ITransactionRepository';
 
+import {
+  myDataSource,
+} from '@database/app-data-source';
+
+import {
+  User,
+} from '@modules/accounts/entities/User';
+
+import {
+  Transactions,
+} from '@modules/transactions/entities/Transactions';
+
+import {
+  ITransactionsRepository,
+} from '../ITransactionRepository';
+
+import {
+  ICreateTransactionsDTO,
+} from '@modules/transactions/dtos/ICreateTransactionsDTO';
+
+import {
+  IUpdateTransactionDTO,
+} from '@modules/transactions/dtos/IUpdateTransactionDTO';
 
 export class TransactionsRepository implements ITransactionsRepository {
   private repository: Repository<Transactions>;

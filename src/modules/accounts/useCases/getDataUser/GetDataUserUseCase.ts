@@ -1,7 +1,16 @@
 import { inject, injectable } from 'tsyringe';
-import { AppError } from '../../../../errors/AppError';
-import { User } from '../../entities/User';
-import { IUserRepository } from '../../repositories/IUserRepository';
+
+import {
+  User,
+ } from '@modules/accounts/entities/User';
+
+ import {
+  IUserRepository,
+} from '@modules/accounts/repositories/IUserRepository';
+
+import {
+  AppError,
+} from '@errors/AppError';
 
 
 @injectable()

@@ -1,17 +1,38 @@
 {
-   "compilerOptions": {
-      "lib": [
-         "es5",
-         "es6"
+  "compilerOptions": {
+    "lib": [
+        "es5",
+        "es6"
+    ],
+    "baseUrl": "./src",
+    "paths": {
+      "@modules/*": [
+      "modules/*"
       ],
-      "target": "ES5",
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "outDir": "./build",
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "sourceMap": true,
-      "resolveJsonModule": true,
-      "esModuleInterop": true
-   }
+      "@database/*": [
+      "database/*"
+      ],
+      "@shared/*": [
+      "shared/*"
+      ],
+      "@errors/*": [
+      "errors/*"
+      ],
+      "@routes/*": [
+        "routes/*"
+      ],
+      "@middlewares/*": [
+      "middlewares/*"
+      ]
+    },
+    "target": "ES5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./build",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true
+  }
 }

@@ -1,9 +1,20 @@
 import { inject, injectable } from 'tsyringe';
-import { AppError } from '../../../../errors/AppError';
-import { IUserRepository } from '../../../accounts/repositories/IUserRepository';
-import { ICreateTransactionsDTO } from '../../dtos/ICreateTransactionsDTO';
-import { ITransactionsRepository } from '../../repositories/ITransactionRepository';
 
+import {
+  IUserRepository,
+} from '@modules/accounts/repositories/IUserRepository';
+
+import {
+  ICreateTransactionsDTO,
+} from '@modules/transactions/dtos/ICreateTransactionsDTO';
+
+import {
+  ITransactionsRepository,
+} from '@modules/transactions/repositories/ITransactionRepository';
+
+import {
+  AppError,
+} from '@errors/AppError';
 
 @injectable()
 export class CreateTransactionUseCase {

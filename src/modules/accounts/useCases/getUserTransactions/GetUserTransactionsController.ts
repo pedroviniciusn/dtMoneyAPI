@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import { container } from 'tsyringe';
-import { GetUserTransactionsUseCase } from './GetUserTransactionsUseCase';
 
+import { container } from 'tsyringe';
+
+import { GetUserTransactionsUseCase } from './GetUserTransactionsUseCase';
 
 export class GetUserTransactionsController {
   async handle(req: Request, res: Response): Promise<Response> {

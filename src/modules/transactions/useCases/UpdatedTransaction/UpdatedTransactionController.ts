@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { container } from 'tsyringe';
-import { UpdatedTransactionUseCase } from './UpdatedTransactionUseCase';
 
+import { container } from 'tsyringe';
+
+import { UpdatedTransactionUseCase } from './UpdatedTransactionUseCase';
 
 export class UpdatedTransactionController {
   async handle(req: Request, res: Response): Promise<Response> {
     const { id: transactionId } = req.params;
-    console.log(transactionId)
 
     const {
       title,

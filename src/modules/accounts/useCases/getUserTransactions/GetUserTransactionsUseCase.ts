@@ -1,8 +1,16 @@
 import { inject, injectable } from 'tsyringe';
-import { AppError } from '../../../../errors/AppError';
-import { Transactions } from '../../../transactions/entities/Transactions';
-import { IUserRepository } from '../../repositories/IUserRepository';
 
+import {
+  IUserRepository,
+} from '@modules/accounts/repositories/IUserRepository';
+
+import {
+  Transactions,
+} from '@modules/transactions/entities/Transactions';
+
+import {
+  AppError,
+} from '@errors/AppError';
 
 @injectable()
 export class GetUserTransactionsUseCase {

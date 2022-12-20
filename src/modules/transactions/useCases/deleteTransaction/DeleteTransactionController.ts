@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import { container } from 'tsyringe';
-import { DeleteTransactionUseCase } from './DeleteTransactionUseCase';
 
+import { container } from 'tsyringe';
+
+import { DeleteTransactionUseCase } from './DeleteTransactionUseCase';
 
 export class DeleteTransactionController {
   async handle(req: Request, res: Response): Promise<Response> {

@@ -1,6 +1,12 @@
 import { inject, injectable } from 'tsyringe';
-import { AppError } from '../../../../errors/AppError';
-import { IUserRepository } from '../../repositories/IUserRepository';
+
+import {
+  IUserRepository,
+} from '@modules/accounts/repositories/IUserRepository';
+
+import {
+  AppError,
+} from '@errors/AppError';
 
 @injectable()
 export class DeleteUserAccountUseCase {

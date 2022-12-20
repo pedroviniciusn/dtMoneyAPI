@@ -1,8 +1,18 @@
-import { compare, hash } from 'bcryptjs';
 import { inject, injectable } from 'tsyringe';
-import { AppError } from '../../../../errors/AppError';
-import { IUpdateUserPasswordDTO } from '../../dtos/IUpdateUserPasswordDTO';
-import { IUserRepository } from '../../repositories/IUserRepository';
+import { compare, hash } from 'bcryptjs';
+
+import {
+  IUpdateUserPasswordDTO,
+} from '@modules/accounts/dtos/IUpdateUserPasswordDTO';
+
+import {
+  IUserRepository,
+} from '@modules/accounts/repositories/IUserRepository';
+
+import {
+  AppError,
+} from '@errors/AppError';
+
 
 @injectable()
 export class UpdatedUserPasswordUseCase {
