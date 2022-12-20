@@ -8,19 +8,23 @@ import {
 
 import {
   CreateUserUseCase,
-} from './CreateUserUseCase';
+} from '../createUser/CreateUserUseCase';
+
+import { DeleteUserAccountUseCase } from './DeleteUserAccountUseCase';
 
 
 let inMemoryUserRepositoy: InMemoryUserRepositoy;
 let createUserUseCase: CreateUserUseCase;
+let deleteUserAccountUseCase: DeleteUserAccountUseCase;
 
-describe('Create User', () => {
+describe('Delete User', () => {
   beforeEach(() => {
     inMemoryUserRepositoy = new InMemoryUserRepositoy();
     createUserUseCase = new CreateUserUseCase(inMemoryUserRepositoy);
+    deleteUserAccountUseCase = new DeleteUserAccountUseCase(inMemoryUserRepositoy);
   });
 
-  it('Should be able to create a new user', async () => {
+  it('Should be able to delete a user', async () => {
     const user : ICreateUserDTO = {
       name: 'User test',
       email: 'user@test.com',
@@ -35,28 +39,16 @@ describe('Create User', () => {
 
     const userCreated = await inMemoryUserRepositoy.findByEmail(user.email);
 
-    expect(userCreated).toHaveProperty('id');
+    await deleteUserAccountUseCase.execute(userCreated.id);
+
+    const checkUserDeleted = await inMemoryUserRepositoy.findByEmail(user.email);
+
+    expect(checkUserDeleted).toBeUndefined();
   });
 
-  it('Should not be able to create a new user if email exists', async () => {
+  it('Should not be able to delete an nonexistent user', async () => {
     expect(async () => {
-      const user : ICreateUserDTO = {
-        name: 'User test',
-        email: 'user@test.com',
-        password: 'test123'
-      }
-  
-      await createUserUseCase.execute({
-        name: user.name,
-        email: user.email,
-        password: user.password,
-      });
-  
-      await createUserUseCase.execute({
-        name: user.name,
-        email: user.email,
-        password: user.password,
-      });
+      await deleteUserAccountUseCase.execute('ajsdojaklfjksdhjfjaasjkl')
     }).rejects.toBeInstanceOf(AppError);
   });
 });
