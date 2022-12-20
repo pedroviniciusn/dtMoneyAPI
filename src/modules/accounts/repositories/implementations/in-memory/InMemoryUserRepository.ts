@@ -60,7 +60,7 @@ class InMemoryUserRepositoy implements IUserRepository {
 
     user.password = newPassword;
 
-    this.users.push(user)
+    this.users.push(user);
   }
   
   async delete(userId: string): Promise<void> {
@@ -83,3 +83,5 @@ class InMemoryUserRepositoy implements IUserRepository {
     return this.users.find((user) => user.id === userId);
   }
 }
+
+export { InMemoryUserRepositoy };

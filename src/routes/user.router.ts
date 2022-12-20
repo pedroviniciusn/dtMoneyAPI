@@ -6,7 +6,7 @@ import {
 
 import {
   CreateUserController,
-} from '@modules/accounts/useCases/createUserAccount/CreateUserAccountCrontroller';
+} from '@modules/accounts/useCases/createUser/CreateUserCrontroller';
 
 import {
   DeleteUserAccountController,
