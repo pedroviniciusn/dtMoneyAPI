@@ -1,5 +1,7 @@
 import { AppError } from '@errors/AppError';
 
+import { v4 as uuidV4 } from 'uuid';
+
 import { ICreateUserDTO } from '@modules/accounts/dtos/ICreateUserDTO';
 
 import {
@@ -48,7 +50,9 @@ describe('Delete User', () => {
 
   it('Should not be able to delete an nonexistent user', async () => {
     expect(async () => {
-      await deleteUserAccountUseCase.execute('ajsdojaklfjksdhjfjaasjkl')
+      const id = uuidV4();
+
+      await deleteUserAccountUseCase.execute(id);
     }).rejects.toBeInstanceOf(AppError);
   });
 });

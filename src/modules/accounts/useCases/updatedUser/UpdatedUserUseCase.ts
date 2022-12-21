@@ -11,6 +11,7 @@ import {
 import {
   AppError,
 } from '@errors/AppError';
+import { User } from '@modules/accounts/entities/User';
 
 @injectable()
 export class UpdatedUserUseCase {
@@ -23,17 +24,19 @@ export class UpdatedUserUseCase {
     userId,
     name,
     email,
-  }: IUpdateUserDTO): Promise<void> {
-    const user = this.userRepository.findById(userId);
+  }: IUpdateUserDTO): Promise<User> {
+    const user = await this.userRepository.findById(userId);
 
     if (!user) {
-      throw new AppError('User not found', 401)
+      throw new AppError('User not found', 401);
     } 
 
-    await this.userRepository.update({
+    const userUpdated = await this.userRepository.update({
       userId,
       name,
       email,
     });
+
+    return userUpdated;
   }
 }

@@ -16,15 +16,14 @@ import {
   AuthenticateUserUseCase,
 } from '../authenticateUser/AuthenticateUserUseCase';
 
-import { GetDataUserUseCase } from './GetDataUserUseCase';
-
+import { UpdatedUserUseCase } from './UpdatedUserUseCase';
 
 let inMemoryUserRepositoy: InMemoryUserRepositoy;
 let createUserUseCase: CreateUserUseCase;
 let authenticateUserUseCase: AuthenticateUserUseCase;
-let getDataUserUseCase: GetDataUserUseCase;
+let updatedUserUseCase: UpdatedUserUseCase;
 
-describe('Get Data User', () => {
+describe('Update User', () => {
   beforeEach(() => {
     inMemoryUserRepositoy = new InMemoryUserRepositoy();
     createUserUseCase = new CreateUserUseCase(
@@ -32,13 +31,13 @@ describe('Get Data User', () => {
     );
     authenticateUserUseCase = new AuthenticateUserUseCase(
       inMemoryUserRepositoy,
-    );
-    getDataUserUseCase = new GetDataUserUseCase(
+      );
+    updatedUserUseCase = new UpdatedUserUseCase(
       inMemoryUserRepositoy,
     );
   });
 
-  it('Should be able to get data user', async () => {
+  it('Should be able to update user data', async () => {
     const user : ICreateUserDTO = {
       name: 'User',
       email: 'user@authenticate.com',
@@ -58,23 +57,30 @@ describe('Get Data User', () => {
 
     const userData = await inMemoryUserRepositoy.findByEmail(userResult.user.email);
 
-    const data = await getDataUserUseCase.execute(userData.id);
+    const userUpdated = await updatedUserUseCase.execute({
+      userId: userData.id,
+      name: 'user updated',
+      email: 'user@Updated.com'
+    })
 
-    expect(data).toEqual(
+    expect(userUpdated).toEqual(
       expect.objectContaining({
         id: userData.id,
-        name: userData.name,
-        email: userData.email,
-        password: userData.password,
+        name: 'user updated',
+        email: 'user@Updated.com'
       })
     );
   });
 
-  it('Should not be able to get data an nonexistent user', async () => {
+  it('Should not be able to update data an nonexistent user', async () => {
     expect(async () => {
       const id = uuidV4();
       
-      await getDataUserUseCase.execute(id);
+      await updatedUserUseCase.execute({
+        userId: id,
+        name: 'user updated',
+        email: 'user@Updated.com'
+      })
     }).rejects.toBeInstanceOf(AppError);
   });
 });

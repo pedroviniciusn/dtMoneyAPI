@@ -38,10 +38,11 @@ class InMemoryUserRepositoy implements IUserRepository {
   }
 
   async update({
+    userId,
     name,
     email,
-  }: IUpdateUserDTO): Promise<void> {
-    const user = new User();
+  }: IUpdateUserDTO): Promise<User> {
+    const user = this.users.find((user) => user.id === userId);
 
     Object.assign(user, {
       name,
@@ -49,6 +50,8 @@ class InMemoryUserRepositoy implements IUserRepository {
     });
 
     this.users.push(user);
+
+    return user;
   }
 
   async updatePassword({

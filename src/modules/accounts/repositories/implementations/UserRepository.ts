@@ -58,7 +58,7 @@ class UserRepository implements IUserRepository {
     userId,
     name,
     email,
-  }: IUpdateUserDTO): Promise<void> {
+  }: IUpdateUserDTO): Promise<User> {
     const user = await this.repository.findOneBy({
       id: userId,
     })
@@ -67,6 +67,8 @@ class UserRepository implements IUserRepository {
       name: name ? name : user.name,
       email: email ? email : user.email,
     })
+
+    return user;
   }
 
   async updatePassword({

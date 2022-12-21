@@ -16,7 +16,7 @@ import {
 
 interface IUserRepository {
   create(data: ICreateUserDTO): Promise<void>;
-  update(data: IUpdateUserDTO): Promise<void>;
+  update(data: IUpdateUserDTO): Promise<User>;
   updatePassword(data: IUpdateUserPasswordDTO): Promise<void>;
   delete(userId: string): Promise<void>;
   findByEmail(email: string): Promise<User>;
