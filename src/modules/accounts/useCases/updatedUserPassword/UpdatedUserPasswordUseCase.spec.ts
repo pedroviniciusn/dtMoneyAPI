@@ -2,6 +2,8 @@ import { AppError } from '@errors/AppError';
 
 import { v4 as uuidV4 } from 'uuid';
 
+import { compare } from 'bcryptjs';
+
 import { ICreateUserDTO } from '@modules/accounts/dtos/ICreateUserDTO';
 
 import {
@@ -16,12 +18,12 @@ import {
   AuthenticateUserUseCase,
 } from '../authenticateUser/AuthenticateUserUseCase';
 
-import { UpdatedUserUseCase } from './UpdatedUserUseCase';
+import { UpdatedUserPasswordUseCase } from './UpdatedUserPasswordUseCase';
 
 let inMemoryUserRepositoy: InMemoryUserRepositoy;
 let createUserUseCase: CreateUserUseCase;
 let authenticateUserUseCase: AuthenticateUserUseCase;
-let updatedUserUseCase: UpdatedUserUseCase;
+let updatedUserPasswordUseCase: UpdatedUserPasswordUseCase;
 
 describe('Update User', () => {
   beforeEach(() => {
@@ -32,15 +34,15 @@ describe('Update User', () => {
     authenticateUserUseCase = new AuthenticateUserUseCase(
       inMemoryUserRepositoy,
       );
-    updatedUserUseCase = new UpdatedUserUseCase(
+    updatedUserPasswordUseCase = new UpdatedUserPasswordUseCase(
       inMemoryUserRepositoy,
     );
   });
 
   it('Should be able to update user data', async () => {
     const user : ICreateUserDTO = {
-      name: 'User',
-      email: 'user@update.com',
+      name: 'User test password',
+      email: 'user@password.com',
       password: 'test123'
     }
 
@@ -57,29 +59,27 @@ describe('Update User', () => {
 
     const userData = await inMemoryUserRepositoy.findByEmail(userResult.user.email);
 
-    const userUpdated = await updatedUserUseCase.execute({
+    await updatedUserPasswordUseCase.execute({
       userId: userData.id,
-      name: 'user updated',
-      email: 'user@updatednow.com'
-    })
+      password: user.password,
+      newPassword: 'teste00'
+    });
 
-    expect(userUpdated).toEqual(
-      expect.objectContaining({
-        id: userData.id,
-        name: 'user updated',
-        email: 'user@updatednow.com'
-      })
-    );
+    const userPassword = await inMemoryUserRepositoy.findById(userData.id);
+
+    const passwordMatch = await compare(userPassword.password, userData.password);
+    
+    expect(passwordMatch).toBe(false);
   });
 
-  it('Should not be able to update data an nonexistent user', async () => {
+  it('Should not be able to update password an nonexistent user', async () => {
     expect(async () => {
       const id = uuidV4();
 
-      await updatedUserUseCase.execute({
+      await updatedUserPasswordUseCase.execute({
         userId: id,
-        name: 'user updated',
-        email: 'user@Updated.com'
+        password: 'error',
+        newPassword: 'erroragain'
       })
     }).rejects.toBeInstanceOf(AppError);
   });

@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+
 import { compare, hash } from 'bcryptjs';
 
 import {
@@ -26,8 +27,11 @@ export class UpdatedUserPasswordUseCase {
     password,
     newPassword,
   }: IUpdateUserPasswordDTO): Promise<void> {
-
     const user = await this.userRepository.findByIdAndGetPassword(userId);
+
+    if (!user) {
+      throw new AppError('User not found!')
+    }
 
     const passwordMatch = await compare(password, user.password);
 

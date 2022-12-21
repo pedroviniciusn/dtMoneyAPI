@@ -59,14 +59,16 @@ class UserRepository implements IUserRepository {
     name,
     email,
   }: IUpdateUserDTO): Promise<User> {
-    const user = await this.repository.findOneBy({
-      id: userId,
-    })
+    const user = await this.repository.findOne({
+      where: {
+        id: userId,
+      },
+    });
     
     await this.repository.update(user.id, {
       name: name ? name : user.name,
       email: email ? email : user.email,
-    })
+    });
 
     return user;
   }
@@ -76,9 +78,15 @@ class UserRepository implements IUserRepository {
     password,
     newPassword,
   }: IUpdateUserPasswordDTO): Promise<void> {
-    await this.repository.update(userId, {
+    const user = await this.repository.findOne({
+      where: {
+        id: userId,
+      },
+    });
+
+    await this.repository.update(user.id, {
       password: newPassword,
-    })
+    });
   }
 
   async delete(userId: string): Promise<void> {
