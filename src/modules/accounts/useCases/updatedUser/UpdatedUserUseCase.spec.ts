@@ -5,7 +5,7 @@ import { v4 as uuidV4 } from 'uuid';
 import { ICreateUserDTO } from '@modules/accounts/dtos/ICreateUserDTO';
 
 import {
-  InMemoryUserRepositoy,
+  InMemoryUserRepository,
 } from '@modules/accounts/repositories/implementations/in-memory/InMemoryUserRepository';
 
 import {
@@ -18,22 +18,22 @@ import {
 
 import { UpdatedUserUseCase } from './UpdatedUserUseCase';
 
-let inMemoryUserRepositoy: InMemoryUserRepositoy;
+let inMemoryUserRepository: InMemoryUserRepository;
 let createUserUseCase: CreateUserUseCase;
 let authenticateUserUseCase: AuthenticateUserUseCase;
 let updatedUserUseCase: UpdatedUserUseCase;
 
 describe('Update User', () => {
   beforeEach(() => {
-    inMemoryUserRepositoy = new InMemoryUserRepositoy();
+    inMemoryUserRepository = new InMemoryUserRepository();
     createUserUseCase = new CreateUserUseCase(
-      inMemoryUserRepositoy,
+      inMemoryUserRepository,
     );
     authenticateUserUseCase = new AuthenticateUserUseCase(
-      inMemoryUserRepositoy,
+      inMemoryUserRepository,
       );
     updatedUserUseCase = new UpdatedUserUseCase(
-      inMemoryUserRepositoy,
+      inMemoryUserRepository,
     );
   });
 
@@ -55,7 +55,7 @@ describe('Update User', () => {
       password: user.password,
     });
 
-    const userData = await inMemoryUserRepositoy.findByEmail(userResult.user.email);
+    const userData = await inMemoryUserRepository.findByEmail(userResult.user.email);
 
     const userUpdated = await updatedUserUseCase.execute({
       userId: userData.id,

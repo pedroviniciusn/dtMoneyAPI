@@ -5,7 +5,7 @@ import { v4 as uuidV4 } from 'uuid';
 import { ICreateUserDTO } from '@modules/accounts/dtos/ICreateUserDTO';
 
 import {
-  InMemoryUserRepositoy,
+  InMemoryUserRepository,
 } from '@modules/accounts/repositories/implementations/in-memory/InMemoryUserRepository';
 
 import {
@@ -15,15 +15,15 @@ import {
 import { DeleteUserAccountUseCase } from './DeleteUserAccountUseCase';
 
 
-let inMemoryUserRepositoy: InMemoryUserRepositoy;
+let inMemoryUserRepository: InMemoryUserRepository;
 let createUserUseCase: CreateUserUseCase;
 let deleteUserAccountUseCase: DeleteUserAccountUseCase;
 
 describe('Delete User', () => {
   beforeEach(() => {
-    inMemoryUserRepositoy = new InMemoryUserRepositoy();
-    createUserUseCase = new CreateUserUseCase(inMemoryUserRepositoy);
-    deleteUserAccountUseCase = new DeleteUserAccountUseCase(inMemoryUserRepositoy);
+    inMemoryUserRepository = new InMemoryUserRepository();
+    createUserUseCase = new CreateUserUseCase(inMemoryUserRepository);
+    deleteUserAccountUseCase = new DeleteUserAccountUseCase(inMemoryUserRepository);
   });
 
   it('Should be able to delete a user', async () => {
@@ -39,11 +39,11 @@ describe('Delete User', () => {
       password: user.password,
     });
 
-    const userCreated = await inMemoryUserRepositoy.findByEmail(user.email);
+    const userCreated = await inMemoryUserRepository.findByEmail(user.email);
 
     await deleteUserAccountUseCase.execute(userCreated.id);
 
-    const checkUserDeleted = await inMemoryUserRepositoy.findByEmail(user.email);
+    const checkUserDeleted = await inMemoryUserRepository.findByEmail(user.email);
 
     expect(checkUserDeleted).toBeUndefined();
   });

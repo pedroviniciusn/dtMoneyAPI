@@ -11,8 +11,8 @@ import {
 } from '../entities/Transactions';
 
 interface ITransactionsRepository {
-  create(data: ICreateTransactionsDTO): Promise<void>;
-  update(data: IUpdateTransactionDTO): Promise<void>;
+  create(data: ICreateTransactionsDTO): Promise<Transactions>;
+  update(data: IUpdateTransactionDTO): Promise<Transactions>;
   delete(transactionId: string): Promise<void>;
   findById(transactionId: string): Promise<Transactions>;
 }

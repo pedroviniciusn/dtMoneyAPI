@@ -3,7 +3,7 @@ import { AppError } from '@errors/AppError';
 import { ICreateUserDTO } from '@modules/accounts/dtos/ICreateUserDTO';
 
 import {
-  InMemoryUserRepositoy,
+  InMemoryUserRepository,
 } from '@modules/accounts/repositories/implementations/in-memory/InMemoryUserRepository';
 
 import {
@@ -11,13 +11,13 @@ import {
 } from './CreateUserUseCase';
 
 
-let inMemoryUserRepositoy: InMemoryUserRepositoy;
+let inMemoryUserRepository: InMemoryUserRepository;
 let createUserUseCase: CreateUserUseCase;
 
 describe('Create User', () => {
   beforeEach(() => {
-    inMemoryUserRepositoy = new InMemoryUserRepositoy();
-    createUserUseCase = new CreateUserUseCase(inMemoryUserRepositoy);
+    inMemoryUserRepository = new InMemoryUserRepository();
+    createUserUseCase = new CreateUserUseCase(inMemoryUserRepository);
   });
 
   it('Should be able to create a new user', async () => {
@@ -33,7 +33,7 @@ describe('Create User', () => {
       password: user.password,
     });
 
-    const userCreated = await inMemoryUserRepositoy.findByEmail(user.email);
+    const userCreated = await inMemoryUserRepository.findByEmail(user.email);
 
     expect(userCreated).toHaveProperty('id');
   });

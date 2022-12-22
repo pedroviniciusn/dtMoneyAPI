@@ -18,7 +18,7 @@ import {
   IUserRepository,
 } from '../../IUserRepository';
 
-class InMemoryUserRepositoy implements IUserRepository {
+class InMemoryUserRepository implements IUserRepository {
   users: User[] = [];
 
   async create({
@@ -87,4 +87,4 @@ class InMemoryUserRepositoy implements IUserRepository {
   }
 }
 
-export { InMemoryUserRepositoy };
+export { InMemoryUserRepository };

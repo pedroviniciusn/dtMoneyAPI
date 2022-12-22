@@ -3,7 +3,7 @@ import { AppError } from '@errors/AppError';
 import { ICreateUserDTO } from '@modules/accounts/dtos/ICreateUserDTO';
 
 import {
-  InMemoryUserRepositoy,
+  InMemoryUserRepository,
 } from '@modules/accounts/repositories/implementations/in-memory/InMemoryUserRepository';
 
 import {
@@ -13,15 +13,15 @@ import {
 import { AuthenticateUserUseCase } from './AuthenticateUserUseCase';
 
 
-let inMemoryUserRepositoy: InMemoryUserRepositoy;
+let inMemoryUserRepository: InMemoryUserRepository;
 let createUserUseCase: CreateUserUseCase;
 let authenticateUserUseCase: AuthenticateUserUseCase;
 
 describe('Authenticate User', () => {
   beforeEach(() => {
-    inMemoryUserRepositoy = new InMemoryUserRepositoy();
-    createUserUseCase = new CreateUserUseCase(inMemoryUserRepositoy);
-    authenticateUserUseCase = new AuthenticateUserUseCase(inMemoryUserRepositoy);
+    inMemoryUserRepository = new InMemoryUserRepository();
+    createUserUseCase = new CreateUserUseCase(inMemoryUserRepository);
+    authenticateUserUseCase = new AuthenticateUserUseCase(inMemoryUserRepository);
   });
 
   it('Should be able to authenticate user', async () => {

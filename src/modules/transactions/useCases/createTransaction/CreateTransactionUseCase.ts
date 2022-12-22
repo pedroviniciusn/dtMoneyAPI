@@ -1,6 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 
 import {
+  Transactions,
+} from '@modules/transactions/entities/Transactions';
+
+import {
   IUserRepository,
 } from '@modules/accounts/repositories/IUserRepository';
 
@@ -31,19 +35,21 @@ export class CreateTransactionUseCase {
     amount,
     category,
     type,
-  }: ICreateTransactionsDTO): Promise<void> {
+  }: ICreateTransactionsDTO): Promise<Transactions> {
     const user = await this.userRepository.findById(userId);
 
     if(!user) {
       throw new AppError('User not found');
     }
 
-    await this.transactionRepository.create({
+    const transaction = await this.transactionRepository.create({
       userId,
       title,
       amount,
       category,
       type,
     })
+
+    return transaction;
   }
 } 

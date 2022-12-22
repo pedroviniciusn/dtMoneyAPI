@@ -39,7 +39,7 @@ export class TransactionsRepository implements ITransactionsRepository {
     amount,
     category,
     type,
-  }: ICreateTransactionsDTO): Promise<void> {
+  }: ICreateTransactionsDTO): Promise<Transactions> {
     const user = await this.userRepository.findOne({
       where: {
         id: userId,
@@ -61,11 +61,13 @@ export class TransactionsRepository implements ITransactionsRepository {
 
     if (!user.transactions) {
       user.transactions = [transaction];
+    } else {
+      user.transactions = [...user.transactions, transaction];
     }
 
-    user.transactions = [...user.transactions, transaction]
-
     await this.userRepository.save(user);
+
+    return transaction;
   }
 
   async update({
@@ -74,7 +76,7 @@ export class TransactionsRepository implements ITransactionsRepository {
     amount,
     category,
     type,
-  }: IUpdateTransactionDTO): Promise<void> {
+  }: IUpdateTransactionDTO): Promise<Transactions> {
     const transaction = await this.repository.findOne({
       where: {
         id: transactionId,
@@ -86,7 +88,9 @@ export class TransactionsRepository implements ITransactionsRepository {
       amount: amount ? amount : transaction.amount,
       category: category ? category : transaction.category,
       type: type ? type : transaction.type,
-    })
+    });
+
+    return transaction;
   }
 
   async delete(transactionId: string): Promise<void> {

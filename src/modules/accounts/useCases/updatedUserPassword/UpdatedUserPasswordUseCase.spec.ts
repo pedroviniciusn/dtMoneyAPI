@@ -7,7 +7,7 @@ import { compare } from 'bcryptjs';
 import { ICreateUserDTO } from '@modules/accounts/dtos/ICreateUserDTO';
 
 import {
-  InMemoryUserRepositoy,
+  InMemoryUserRepository,
 } from '@modules/accounts/repositories/implementations/in-memory/InMemoryUserRepository';
 
 import {
@@ -20,22 +20,22 @@ import {
 
 import { UpdatedUserPasswordUseCase } from './UpdatedUserPasswordUseCase';
 
-let inMemoryUserRepositoy: InMemoryUserRepositoy;
+let inMemoryUserRepository: InMemoryUserRepository;
 let createUserUseCase: CreateUserUseCase;
 let authenticateUserUseCase: AuthenticateUserUseCase;
 let updatedUserPasswordUseCase: UpdatedUserPasswordUseCase;
 
 describe('Update User', () => {
   beforeEach(() => {
-    inMemoryUserRepositoy = new InMemoryUserRepositoy();
+    inMemoryUserRepository = new InMemoryUserRepository();
     createUserUseCase = new CreateUserUseCase(
-      inMemoryUserRepositoy,
+      inMemoryUserRepository,
     );
     authenticateUserUseCase = new AuthenticateUserUseCase(
-      inMemoryUserRepositoy,
+      inMemoryUserRepository,
       );
     updatedUserPasswordUseCase = new UpdatedUserPasswordUseCase(
-      inMemoryUserRepositoy,
+      inMemoryUserRepository,
     );
   });
 
@@ -57,7 +57,7 @@ describe('Update User', () => {
       password: user.password,
     });
 
-    const userData = await inMemoryUserRepositoy.findByEmail(userResult.user.email);
+    const userData = await inMemoryUserRepository.findByEmail(userResult.user.email);
 
     await updatedUserPasswordUseCase.execute({
       userId: userData.id,
@@ -65,7 +65,7 @@ describe('Update User', () => {
       newPassword: 'teste00'
     });
 
-    const userPassword = await inMemoryUserRepositoy.findById(userData.id);
+    const userPassword = await inMemoryUserRepository.findById(userData.id);
 
     const passwordMatch = await compare(userPassword.password, userData.password);
     
