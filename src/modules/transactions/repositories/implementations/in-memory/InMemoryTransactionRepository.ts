@@ -16,11 +16,6 @@ import {
 import { InMemoryUserRepository } from '@modules/accounts/repositories/implementations/in-memory/InMemoryUserRepository';
 
 class InMemoryTransactionRepository implements ITransactionsRepository {
-
-  constructor() {
-    //this.userRepository = new InMemoryUserRepository();
-  }
-
   transactions: Transactions[] = [];
 
   async create({
@@ -47,11 +42,16 @@ class InMemoryTransactionRepository implements ITransactionsRepository {
   update(data: IUpdateTransactionDTO): Promise<Transactions> {
     throw new Error('Method not implemented.');
   }
-  delete(transactionId: string): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async delete(transactionId: string): Promise<void> {
+    const transactionIndex = this.transactions.findIndex((transaction) => transaction.id === transactionId);
+
+    if (transactionIndex > -1) {
+      this.transactions.splice(transactionIndex);
+    }
   }
-  findById(transactionId: string): Promise<Transactions> {
-    throw new Error('Method not implemented.');
+  async findById(transactionId: string): Promise<Transactions> {
+    return this.transactions.find((transaction) => transaction.id === transactionId);
   }
 }
 
