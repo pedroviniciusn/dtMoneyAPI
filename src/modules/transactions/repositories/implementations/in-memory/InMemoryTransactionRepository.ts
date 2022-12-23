@@ -13,7 +13,6 @@ import {
 import {
   IUpdateTransactionDTO,
 } from '@modules/transactions/dtos/IUpdateTransactionDTO';
-import { InMemoryUserRepository } from '@modules/accounts/repositories/implementations/in-memory/InMemoryUserRepository';
 
 class InMemoryTransactionRepository implements ITransactionsRepository {
   transactions: Transactions[] = [];
@@ -39,12 +38,33 @@ class InMemoryTransactionRepository implements ITransactionsRepository {
     return transaction;
   }
 
-  update(data: IUpdateTransactionDTO): Promise<Transactions> {
-    throw new Error('Method not implemented.');
+  async update({
+    transactionId,
+    title,
+    amount,
+    category,
+    type,
+  }: IUpdateTransactionDTO): Promise<Transactions> {
+    const transaction = this.transactions.find(
+      (transaction) => transaction.id === transactionId
+    );
+
+    Object.assign(transaction, {
+      title,
+      amount,
+      category,
+      type,
+    });
+
+    this.transactions.push(transaction);
+
+    return transaction;
   }
 
   async delete(transactionId: string): Promise<void> {
-    const transactionIndex = this.transactions.findIndex((transaction) => transaction.id === transactionId);
+    const transactionIndex = this.transactions.findIndex(
+      (transaction) => transaction.id === transactionId
+    );
 
     if (transactionIndex > -1) {
       this.transactions.splice(transactionIndex);

@@ -11,6 +11,7 @@ import {
 import { 
   AppError,
 } from '@errors/AppError';
+import { Transactions } from '@modules/transactions/entities/Transactions';
 
 @injectable()
 export class UpdatedTransactionUseCase {
@@ -25,19 +26,21 @@ export class UpdatedTransactionUseCase {
     amount,
     category,
     type,
-  }: IUpdateTransactionDTO): Promise<void> {
+  }: IUpdateTransactionDTO): Promise<Transactions> {
     const transaction = await this.transactionRepository.findById(transactionId);
 
     if (!transaction) {
       throw new AppError('Transaction not found')
     }
 
-    await this.transactionRepository.update({
+    const transactionUpdated = await this.transactionRepository.update({
       transactionId,
       title,
       amount,
       category,
       type,
-    })
+    });
+
+    return transactionUpdated;
   }
 }
