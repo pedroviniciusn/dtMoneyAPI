@@ -8,23 +8,17 @@ import dotenv from 'dotenv';
 
 import { router } from './routes';
 
-import { myDataSource } from '@database/app-data-source';
+import createConnection from './database';
 
 import { clientErrorHandler } from '@middlewares/clientErrorHandler';
 
 import swaggerUi from "swagger-ui-express";
+
 import swaggerFile from './swagger.json';
 
 dotenv.config();
 
-myDataSource
-    .initialize()
-    .then(() => {
-      console.log('Data source has been initialized!')
-    })
-    .catch((err) => {
-      console.error("Error during Data Source initialization:", err)
-  })
+createConnection();
 
 const app = express();
 

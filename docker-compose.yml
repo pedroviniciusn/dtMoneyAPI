@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+  database_dtmoney:
+    image: postgres
+    container_name: database_dtmoney
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=open
+      - POSTGRES_DB=db_dtmoney
+    volumes:
+      - pgdata:/data/postgres
+
+  app: 
+    build: .
+    container_name: dtmoney
+    ports: 
+      - 3333:3333
+    volumes:
+      - .:/usr/app 
+    links: 
+      - database_dtmoney
+    depends_on:
+      - database_dtmoney
+
+volumes:
+  pgdata:
+    driver: local

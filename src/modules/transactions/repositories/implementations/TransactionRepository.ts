@@ -1,8 +1,4 @@
-import { Repository } from 'typeorm';
-
-import {
-  myDataSource,
-} from '@database/app-data-source';
+import { getRepository, Repository } from 'typeorm';
 
 import {
   User,
@@ -29,8 +25,8 @@ export class TransactionsRepository implements ITransactionsRepository {
   private userRepository: Repository<User>;
 
   constructor() {
-    this.repository = myDataSource.getRepository(Transactions);
-    this.userRepository = myDataSource.getRepository(User);
+    this.repository = getRepository(Transactions);
+    this.userRepository = getRepository(User);
   }
 
   async create({
@@ -41,13 +37,13 @@ export class TransactionsRepository implements ITransactionsRepository {
     type,
   }: ICreateTransactionsDTO): Promise<Transactions> {
     const user = await this.userRepository.findOne({
+      relations: ['transactions'],
+
+      select: ['transactions'],
+
       where: {
         id: userId,
       },
-
-      relations: {
-        transactions: true,
-      }
     });
 
     const transaction = this.repository.create({

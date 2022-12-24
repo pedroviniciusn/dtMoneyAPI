@@ -1,8 +1,4 @@
 import {
-  myDataSource,
-} from '@database/app-data-source';
-
-import {
   ICreateUserDTO,
 } from '@modules/accounts/dtos/ICreateUserDTO';
 
@@ -23,6 +19,7 @@ import {
 } from '@modules/transactions/entities/Transactions';
 
 import {
+  getRepository,
   Repository,
 } from 'typeorm';
 
@@ -36,8 +33,8 @@ class UserRepository implements IUserRepository {
   private transactionsRepository: Repository<Transactions>;
 
   constructor() {
-    this.repository = myDataSource.getRepository(User);
-    this.transactionsRepository = myDataSource.getRepository(Transactions);
+    this.repository = getRepository(User);
+    this.transactionsRepository = getRepository(Transactions);
   }
 
   async create({
@@ -93,10 +90,6 @@ class UserRepository implements IUserRepository {
     const user = await this.repository.findOne({
       where: {
         id: userId,
-      },
-      
-      relations: {
-        transactions: true,
       }
     })
 
@@ -124,23 +117,13 @@ class UserRepository implements IUserRepository {
 
   async findById(userId: string): Promise<User> {
     const user = await this.repository.findOne({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        password: false,
-        created_at: false,
-        updated_at: false,
-        transactions: true,
-      },
+      relations: ['transactions'],
+
+      select: ['id', "name", 'email', 'transactions'],
 
       where: {
         id: userId,
       },
-      
-      relations: {
-        transactions: true,
-      }
     })
 
     return user;
@@ -148,14 +131,7 @@ class UserRepository implements IUserRepository {
 
   async findByIdAndGetPassword(userId: string): Promise<User> {
     const userPassword = await this.repository.findOne({
-      select: {
-        name: false,
-        email: false,
-        password: true,
-        created_at: false,
-        updated_at: false,
-        transactions: false,
-      },
+      select: ['password'],
 
       where: {
         id: userId

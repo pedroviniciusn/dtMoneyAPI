@@ -115,7 +115,7 @@ describe('Get Transactions From User', () => {
     }).rejects.toBeInstanceOf(AppError);
   });
 
-  it('Should not be able to get all transactions if transactions none exists', async () => {
+  it('Should not be able to get all transactions if transactions an nonexistent', async () => {
     expect(async () => {
       const user : ICreateUserDTO = {
         name: 'User Error',

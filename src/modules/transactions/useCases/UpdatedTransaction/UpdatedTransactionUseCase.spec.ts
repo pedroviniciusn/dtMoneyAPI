@@ -45,7 +45,7 @@ let createTransactionUseCase: CreateTransactionUseCase;
 let updatedTransactionUseCase: UpdatedTransactionUseCase
 let authenticateUserUseCase: AuthenticateUserUseCase;
 
-describe('Updated Transaction', () => {
+describe('Update Transaction', () => {
   beforeEach(() => {
     inMemoryUserRepository = new InMemoryUserRepository();
     createUserUseCase = new CreateUserUseCase(inMemoryUserRepository);
