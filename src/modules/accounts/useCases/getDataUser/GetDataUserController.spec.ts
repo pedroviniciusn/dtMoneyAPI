@@ -12,7 +12,7 @@ import createConnection from '@database/index';
 
 let connection: Connection;
 
-describe('Authenticate User Controller', () => {
+describe('Get Data User Controller', () => {
   beforeAll(async () => {
     connection = await createConnection();
     await connection.runMigrations();
@@ -32,28 +32,30 @@ describe('Authenticate User Controller', () => {
     await connection.close();
   });
 
-  it('Should be able to authenticate user', async () => {
-    const response = await request(app).post('/sessions').send({
+  it('Should be able to get data user', async () => {
+    const responseToken = await request(app).post('/sessions').send({
       email: 'user@test.com',
       password: 'test',
     });
 
-    expect(response.status).toBe(200);
+    const { token } = responseToken.body;
 
-    expect(response.body.user).toEqual(
-      expect.objectContaining({
-        name: 'user',
-        email: 'user@test.com',
-      })
-    );
+    const response = await request(app).get('/api/me').set({
+      Authorization: `Bearer ${token}`
+    });
 
-    expect(response.body).toHaveProperty('token');
+    expect(response.body).toHaveProperty('id');
+
+    expect(response.body).toHaveProperty('name');
+
+    expect(response.body).toHaveProperty('email');
+
+    expect(response.body).toHaveProperty('transactions');
   });
 
-  it("Should not be able to authenticated user if incorrect e-mail or password", async () => {
-    const response = await request(app).post('/sessions').send({
-      email: "user@testerror.com",
-      password: "test",
+  it("Should not be able to get data user if user not authenticated", async () => {
+    const response = await request(app).get('/api/me').set({
+      Authorization: `Bearer ${'65b253e6fe67fbc15b0b4d09bdeaabff'}`
     });
 
     expect(response.status).toBe(401);
