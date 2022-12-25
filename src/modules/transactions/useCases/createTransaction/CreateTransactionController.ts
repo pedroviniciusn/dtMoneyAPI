@@ -17,7 +17,7 @@ export class CreateTransactionController {
 
     const createTransactionUseCase = container.resolve(CreateTransactionUseCase);
 
-    await createTransactionUseCase.execute({
+    const transaction = await createTransactionUseCase.execute({
       userId,
       title,
       amount,
@@ -26,7 +26,8 @@ export class CreateTransactionController {
     });
 
     return res.status(201).json({
-      message: 'Created transaction successful.'
+      message: 'Created transaction successful.',
+      transaction,
     });
   }
 } 

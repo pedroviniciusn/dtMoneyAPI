@@ -95,11 +95,7 @@ export class TransactionsRepository implements ITransactionsRepository {
   }
   
   async findById(transactionId: string): Promise<Transactions> {
-    const transaction = await this.repository.findOne({
-      where: {
-        id: transactionId,
-      }
-    })
+    const transaction = await this.repository.findOne(transactionId);
 
     return transaction;
   }

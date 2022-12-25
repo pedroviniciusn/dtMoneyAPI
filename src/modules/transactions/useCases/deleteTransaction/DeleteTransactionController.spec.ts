@@ -12,7 +12,7 @@ import createConnection from '@database/index';
 
 let connection: Connection;
 
-describe('Create Transaction Controller', () => {
+describe('Delete Transaction Controller', () => {
   beforeAll(async () => {
     connection = await createConnection();
     await connection.runMigrations();
@@ -32,7 +32,7 @@ describe('Create Transaction Controller', () => {
     await connection.close();
   });
 
-  it('Should be able to create a new transaction', async () => {
+  it('Should be able to delete a transaction', async () => {
     const responseToken = await request(app).post('/sessions').send({
       email: 'user@test.com',
       password: 'test',
@@ -40,7 +40,7 @@ describe('Create Transaction Controller', () => {
 
     const { token } = responseToken.body;
 
-    const response = await request(app).post('/api/me/transactions').send({
+    const responseTransactionId = await request(app).post('/api/me/transactions').send({
       title: 'test',
       amount: 200.00,
       category: 'test',
@@ -48,29 +48,40 @@ describe('Create Transaction Controller', () => {
     }).set({
       Authorization: `Bearer ${token}`,
     }); 
+  
+    const transactionId = responseTransactionId.body.transaction.id;
 
-    expect(response.status).toBe(201);
+    const response = await request(app).delete(`/api/me/transactions/${transactionId}`).set({
+      Authorization: `Bearer ${token}`
+    });
+
+    expect(response.status).toBe(200);
 
     expect(response.body).toHaveProperty('message');
-    
-    expect(response.body).toHaveProperty('transaction');
-
-    expect(response.body.transaction).toEqual(
-      expect.objectContaining({
-        id: response.body.transaction.id,
-        title: 'test',
-        amount: 200.00,
-        category: 'test',
-        type: 'testing',
-      })
-    );
   });
 
-  it("Should not be able to create a new transaction if user not authenticated", async () => {
+  it("Should not be able to delete a transaction if user not authenticated", async () => {
     const response = await request(app).patch('/api/me/account_password').set({
       Authorization: `Bearer '65b253e6fe67fbc15b0b4d09bdeaabff'`,
     });
 
     expect(response.status).toBe(401);
+  });
+
+  it("Should not be able to delete a transaction if transation not found", async () => {
+    const responseToken = await request(app).post('/sessions').send({
+      email: 'user@test.com',
+      password: 'test',
+    });
+
+    const { token } = responseToken.body;
+
+    const response = await request(app).delete(`/api/me/transactions/13612831824817647128`).set({
+      Authorization: `Bearer ${token}`,
+    });
+
+    expect(response.status).toBe(400);
+
+    expect(response.body).toHaveProperty('message');
   });
 });

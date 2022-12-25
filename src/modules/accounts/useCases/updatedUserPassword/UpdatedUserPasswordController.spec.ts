@@ -44,7 +44,7 @@ describe('Updated User Password Controller', () => {
       password: 'test',
       newPassword: 'new password'
     }).set({
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
 
     expect(response.status).toBe(200);
@@ -54,7 +54,7 @@ describe('Updated User Password Controller', () => {
 
   it("Should not be able to update password from user if user not authenticated", async () => {
     const response = await request(app).patch('/api/me/account_password').set({
-      Authorization: `Bearer '65b253e6fe67fbc15b0b4d09bdeaabff'`
+      Authorization: `Bearer '65b253e6fe67fbc15b0b4d09bdeaabff'`,
     });
 
     expect(response.status).toBe(401);

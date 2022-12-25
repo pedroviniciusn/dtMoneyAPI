@@ -41,7 +41,7 @@ describe('Delete User Controller', () => {
     const { token } = responseToken.body;
 
     const response = await request(app).delete('/api/me/account').set({
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
 
     expect(response.status).toBe(200);
@@ -51,7 +51,7 @@ describe('Delete User Controller', () => {
 
   it("Should not be able to delete user if user not authenticated", async () => {
     const response = await request(app).delete('/api/me/account').set({
-      Authorization: `Bearer '65b253e6fe67fbc15b0b4d09bdeaabff'`
+      Authorization: `Bearer '65b253e6fe67fbc15b0b4d09bdeaabff'`,
     });
 
     expect(response.status).toBe(401);
