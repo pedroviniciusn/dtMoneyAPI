@@ -19,6 +19,7 @@ import {
 import {
   IUpdateTransactionDTO,
 } from '@modules/transactions/dtos/IUpdateTransactionDTO';
+import { Console } from 'console';
 
 export class TransactionsRepository implements ITransactionsRepository {
   private repository: Repository<Transactions>;
@@ -39,7 +40,7 @@ export class TransactionsRepository implements ITransactionsRepository {
     const user = await this.userRepository.findOne({
       relations: ['transactions'],
 
-      select: ['transactions'],
+      select: ['transactions', 'id'],
 
       where: {
         id: userId,
