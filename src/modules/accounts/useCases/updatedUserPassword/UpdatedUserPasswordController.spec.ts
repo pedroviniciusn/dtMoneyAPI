@@ -12,7 +12,7 @@ import createConnection from '@database/index';
 
 let connection: Connection;
 
-describe('Delete User Controller', () => {
+describe('Updated User Password Controller', () => {
   beforeAll(async () => {
     connection = await createConnection();
     await connection.runMigrations();
@@ -32,7 +32,7 @@ describe('Delete User Controller', () => {
     await connection.close();
   });
 
-  it('Should be able to delete user', async () => {
+  it('Should be able to update password from user', async () => {
     const responseToken = await request(app).post('/sessions').send({
       email: 'user@test.com',
       password: 'test',
@@ -40,7 +40,10 @@ describe('Delete User Controller', () => {
 
     const { token } = responseToken.body;
 
-    const response = await request(app).delete('/api/me/account').set({
+    const response = await request(app).patch('/api/me/account_password').send({
+      password: 'test',
+      newPassword: 'new password'
+    }).set({
       Authorization: `Bearer ${token}`
     });
 
@@ -49,8 +52,8 @@ describe('Delete User Controller', () => {
     expect(response.body).toHaveProperty('message');
   });
 
-  it("Should not be able to delete user if user not authenticated", async () => {
-    const response = await request(app).delete('/api/me/account').set({
+  it("Should not be able to update password from user if user not authenticated", async () => {
+    const response = await request(app).patch('/api/me/account_password').set({
       Authorization: `Bearer '65b253e6fe67fbc15b0b4d09bdeaabff'`
     });
 
