@@ -52,7 +52,7 @@ describe('Delete Transaction Controller', () => {
     const transactionId = responseTransactionId.body.transaction.id;
 
     const response = await request(app).delete(`/api/me/transactions/${transactionId}`).set({
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
 
     expect(response.status).toBe(200);
@@ -61,11 +61,13 @@ describe('Delete Transaction Controller', () => {
   });
 
   it("Should not be able to delete a transaction if user not authenticated", async () => {
-    const response = await request(app).patch('/api/me/account_password').set({
-      Authorization: `Bearer '65b253e6fe67fbc15b0b4d09bdeaabff'`,
+    const response = await request(app).delete(`/api/me/transactions/71268376123876218`).set({
+      Authorization: `Bearer h123ih213u231i23hui21h3i`,
     });
 
     expect(response.status).toBe(401);
+
+    expect(response.body).toHaveProperty('message');
   });
 
   it("Should not be able to delete a transaction if transation not found", async () => {

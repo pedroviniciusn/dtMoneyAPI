@@ -67,10 +67,17 @@ describe('Create Transaction Controller', () => {
   });
 
   it("Should not be able to create a new transaction if user not authenticated", async () => {
-    const response = await request(app).patch('/api/me/account_password').set({
-      Authorization: `Bearer '65b253e6fe67fbc15b0b4d09bdeaabff'`,
-    });
+    const response = await request(app).post('/api/me/transactions').send({
+      title: 'test',
+      amount: 200.00,
+      category: 'test',
+      type: 'testing',
+    }).set({
+      Authorization: `Bearer ihdhfusafkamdiofmsdl`,
+    }); 
 
     expect(response.status).toBe(401);
+
+    expect(response.body).toHaveProperty('message');
   });
 });

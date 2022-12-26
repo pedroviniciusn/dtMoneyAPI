@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getConnection, getRepository, Repository } from 'typeorm';
 
 import {
   User,
@@ -19,7 +19,6 @@ import {
 import {
   IUpdateTransactionDTO,
 } from '@modules/transactions/dtos/IUpdateTransactionDTO';
-import { Console } from 'console';
 
 export class TransactionsRepository implements ITransactionsRepository {
   private repository: Repository<Transactions>;
@@ -74,18 +73,14 @@ export class TransactionsRepository implements ITransactionsRepository {
     category,
     type,
   }: IUpdateTransactionDTO): Promise<Transactions> {
-    const transaction = await this.repository.findOne({
-      where: {
-        id: transactionId,
-      }
-    });
+    const transaction = await this.repository.findOne(transactionId);
 
-    await this.repository.update(transaction.id, {
-      title: title ? title : transaction.title,
-      amount: amount ? amount : transaction.amount,
-      category: category ? category : transaction.category,
-      type: type ? type : transaction.type,
-    });
+    transaction.title = title ? title : transaction.title,
+    transaction.amount = amount ? amount : transaction.amount,
+    transaction.category = category ? category : transaction.category,
+    transaction.type = type ? type : transaction.type,
+    
+    await this.repository.save(transaction);
 
     return transaction;
   }
@@ -95,9 +90,7 @@ export class TransactionsRepository implements ITransactionsRepository {
   }
   
   async findById(transactionId: string): Promise<Transactions> {
-    const transaction = await this.repository.findOne(transactionId);
-
-    return transaction;
+    return await this.repository.findOne(transactionId);
   }
 }
   

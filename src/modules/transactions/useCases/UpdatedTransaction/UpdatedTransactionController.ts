@@ -17,7 +17,7 @@ export class UpdatedTransactionController {
 
     const updatedTransactionUseCase = container.resolve(UpdatedTransactionUseCase);
 
-    await updatedTransactionUseCase.execute({
+    const transactionUpdated = await updatedTransactionUseCase.execute({
       transactionId,
       title,
       amount,
@@ -26,7 +26,8 @@ export class UpdatedTransactionController {
     });
 
     return res.status(200).json({
-      message: 'Transaction updated successful.'
+      message: 'Transaction updated successful.',
+      transactionUpdated,
     });
   }
 }
