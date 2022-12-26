@@ -31,6 +31,24 @@ describe('Create User Controller', () => {
     expect(response.body).toHaveProperty('message');
   });
 
+  it('Should not be able to create a new user if email exists', async () => {
+    await request(app).post('/api/account').send({
+      name: 'user test',
+      email: 'user@test.com',
+      password: 'test123',
+    });
+
+    const response = await request(app).post('/api/account').send({
+      name: 'user test',
+      email: 'user@test.com',
+      password: 'test123',
+    });
+    
+    expect(response.status).toBe(400);
+
+    expect(response.body).toHaveProperty('message');
+  });
+
   it('Should not be able to create a new user if not provided all informations', async () => {
     const response = await request(app).post('/api/account').send({
       name: '',
