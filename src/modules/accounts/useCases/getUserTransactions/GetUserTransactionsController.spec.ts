@@ -12,7 +12,7 @@ import createConnection from '@database/index';
 
 let connection: Connection;
 
-describe('Delete User Controller', () => {
+describe('Get User Transactions Controller', () => {
   beforeAll(async () => {
     connection = await createConnection();
     await connection.runMigrations();
@@ -32,7 +32,7 @@ describe('Delete User Controller', () => {
     await connection.close();
   });
 
-  it('Should be able to delete user', async () => {
+  it('Should be able to get all transactions from user', async () => {
     const responseToken = await request(app).post('/sessions').send({
       email: 'user@test.com',
       password: 'test',
@@ -40,20 +40,38 @@ describe('Delete User Controller', () => {
 
     const { token } = responseToken.body;
 
-    const response = await request(app).delete('/api/me/account').set({
+    await request(app).post('/api/me/transactions').send({
+      title: 'test',
+      amount: 200.00,
+      category: 'test',
+      type: 'testing',
+    }).set({
+      Authorization: `Bearer ${token}`,
+    }); 
+
+    const response = await request(app).get('/api/me/account_transactions').set({
       Authorization: `Bearer ${token}`,
     });
+    
+    expect(response.body.length).toBe(1);
 
-    expect(response.status).toBe(200);
-
-    expect(response.body).toHaveProperty('message');
+    expect(response.body[0]).toEqual(
+      expect.objectContaining({
+        title: 'test',
+        amount: 200.00,
+        category: 'test',
+        type: 'testing',
+      })
+    );
   });
 
-  it("Should not be able to delete user if user not authenticated", async () => {
-    const response = await request(app).delete('/api/me/account').set({
-      Authorization: `Bearer 65b253e6fe67fbc15b0b4d09bdeaabff`,
+  it("Should not be able to get all transactions if user not authenticated", async () => {
+    const response = await request(app).get('/api/me/account_transactions').set({
+      Authorization: `Bearer jabfjkfasj31nr3j24jnadjc`,
     });
 
     expect(response.status).toBe(401);
+
+    expect(response.body).toHaveProperty('message');
   });
 });

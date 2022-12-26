@@ -53,7 +53,7 @@ describe('Updated User Controller', () => {
 
   it("Should not be able to update data user if user not authenticated", async () => {
     const response = await request(app).put('/api/me/account_data').set({
-      Authorization: `Bearer '65b253e6fe67fbc15b0b4d09bdeaabff'`,
+      Authorization: `Bearer 65b253e6fe67fbc15b0b4d09bdeaabff`,
     });
 
     expect(response.status).toBe(401);
